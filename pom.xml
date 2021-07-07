@@ -32,6 +32,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -46,6 +54,19 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>7.11.0</version>
+                <configuration>
+                    <url>jdbc:mariadb://localhost:3306/rating_app</url>
+                    <user>root</user>
+                    <password>password123</password>
+                    <schemas>
+                        <schema>rating_app</schema>
+                    </schemas>
                 </configuration>
             </plugin>
         </plugins>
