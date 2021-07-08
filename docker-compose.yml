@@ -1,14 +1,5 @@
 version: "3.1"
 services:
-  api_service:
-    build: .
-    restart: always
-    ports:
-      - 8080:8080
-    depends_on:
-      - maria_db
-    links:
-      - maria_db:app_db
   maria_db:
     image: mariadb:10.6
     container_name: maria_db
@@ -16,12 +7,23 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - "./db/migration/V1_0_0__db_migration.sql:/docker-entrypoint-initdb.d/1.sql"
+      - "./src/main/resources/init:/docker-entrypoint-initdb.d"
     environment:
       MYSQL_DATABASE: rating_app
       MYSQL_USER: root
       MYSQL_PASSWORD: password123
       MYSQL_ROOT_PASSWORD: password123
+  api_service:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - maria_db
+    links:
+      - maria_db:app_db
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     container_name: pma

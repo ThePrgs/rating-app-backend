@@ -1,6 +1,15 @@
 FROM openjdk:11.0.11
-VOLUME /tmp
-ADD src/main/resources/db/migration/V1_0_0__db_migration.sql /docker-entrypoint-initdb.d/
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+
+# Copy local project files
+COPY mvnw pom.xml ./
+COPY src src
+COPY .mvn .mvn
+
+# Build project on image
+RUN ./mvnw clean install package
+RUN cp /target/rating-app-backend-0.0.1-SNAPSHOT.jar app.jar
+
+# Remove target doc after generating .jar
+RUN rm -rf ./target
+
+ENTRYPOINT ["java","-jar","app.jar"]
