@@ -8,10 +8,8 @@ services:
       - 3306:3306
     volumes:
       - "./src/main/resources/init:/docker-entrypoint-initdb.d"
+      - "./src/main/resources/db/migration:/docker-entrypoint-migration.d"
     environment:
-      MYSQL_DATABASE: rating_app
-      MYSQL_USER: root
-      MYSQL_PASSWORD: password123
       MYSQL_ROOT_PASSWORD: password123
   api_service:
     build:
@@ -22,8 +20,6 @@ services:
       - 8080:8080
     depends_on:
       - maria_db
-    links:
-      - maria_db:app_db
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     container_name: pma

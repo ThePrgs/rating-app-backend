@@ -6,7 +6,7 @@ COPY src src
 COPY .mvn .mvn
 
 # Build project on image
-RUN ./mvnw clean install package
+RUN ./mvnw install -DskipTests
 RUN cp /target/rating-app-backend-0.0.1-SNAPSHOT.jar app.jar
 
 # Remove target doc after generating .jar
