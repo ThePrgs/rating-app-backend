@@ -16,17 +16,11 @@ import java.util.Collections;
 @EqualsAndHashCode
 @NoArgsConstructor
 public class AppUser implements UserDetails {
-    @SequenceGenerator(
-            name = "app_user_sequence",
-            sequenceName = "app_user_sequence",
-            allocationSize = 1
-    )
+
     @Id
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "app_user_sequence"
+            strategy = GenerationType.SEQUENCE
     )
-
 
     private Long id;
     private String firstName;
@@ -47,7 +41,7 @@ public class AppUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-       SimpleGrantedAuthority authority = new SimpleGrantedAuthority(appUserRole.name());
+       var authority = new SimpleGrantedAuthority(appUserRole.name());
        return Collections.singletonList(authority);
     }
 
