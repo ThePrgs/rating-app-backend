@@ -15,18 +15,34 @@ import java.util.Collections;
 @Entity
 @EqualsAndHashCode
 @NoArgsConstructor
+@Table(name="app_user")
 public class AppUser implements UserDetails {
+
+    @SequenceGenerator(
+            name = "app_user_sequence",
+            sequenceName = "app_user_sequence",
+            allocationSize = 1
+    )
 
     @Id
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE
+            strategy = GenerationType.SEQUENCE,
+            generator = "app_user_sequence"
     )
 
+
+
+    @Column(name="id")
     private Long id;
+    @Column(name="first_name")
     private String firstName;
+    @Column(name="last_name")
     private String lastName;
+    @Column(name="email")
     private String email;
+    @Column(name="password")
     private String password;
+    @Column(name="app_user_role")
     @Enumerated(EnumType.STRING)
     private AppUserRole appUserRole;
 

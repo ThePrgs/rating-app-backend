@@ -23,11 +23,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/private").authenticated()
+                .antMatchers("/api/private").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/private")
+                .defaultSuccessUrl("/api/private")
                 .permitAll()
                 .and()
                 .logout().permitAll();
