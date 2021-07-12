@@ -1,4 +1,4 @@
-package com.example.ratingappbackend.rating;
+package com.nsoft.ratingappbackend.rating;
 
 public enum RatingEnum {
     VERY_HAPPY,

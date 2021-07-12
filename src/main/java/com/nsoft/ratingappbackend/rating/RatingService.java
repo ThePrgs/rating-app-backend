@@ -1,4 +1,4 @@
-package com.example.ratingappbackend.rating;
+package com.nsoft.ratingappbackend.rating;
 
 
 import lombok.AllArgsConstructor;

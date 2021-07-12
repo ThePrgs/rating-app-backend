@@ -1,4 +1,4 @@
-package com.example.ratingappbackend.security;
+package com.nsoft.ratingappbackend.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
