@@ -2,6 +2,8 @@ package com.example.ratingappbackend.rating;
 
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,7 +14,7 @@ public class RatingService {
 
     public final RatingRepository ratingRepository;
 
-    public String create(RatingRequest request){
+    public ResponseEntity<RatingRequest> create(RatingRequest request){
 
         for (RatingEnum item:RatingEnum.values()) {
             if(item.toString().equals(request.getType().toUpperCase())){
@@ -21,9 +23,9 @@ public class RatingService {
                         LocalDateTime.now()
                 );
                 ratingRepository.save(rating);
-                return "Success";
+                return new ResponseEntity<>(request, HttpStatus.CREATED);
             }
         }
-        return "No such type";
+        return new ResponseEntity<>(request,HttpStatus.BAD_REQUEST);
     }
 }
