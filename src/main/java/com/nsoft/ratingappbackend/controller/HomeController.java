@@ -1,4 +1,4 @@
-package com.example.ratingappbackend.controller;
+package com.nsoft.ratingappbackend.controller;
 
 import org.springframework.web.bind.annotation.*;
 

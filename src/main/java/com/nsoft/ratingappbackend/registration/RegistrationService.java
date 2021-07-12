@@ -1,8 +1,8 @@
-package com.example.ratingappbackend.registration;
+package com.nsoft.ratingappbackend.registration;
 
-import com.example.ratingappbackend.appuser.AppUser;
-import com.example.ratingappbackend.appuser.AppUserRole;
-import com.example.ratingappbackend.appuser.AppUserService;
+import com.nsoft.ratingappbackend.appuser.AppUser;
+import com.nsoft.ratingappbackend.appuser.AppUserRole;
+import com.nsoft.ratingappbackend.appuser.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.example.ratingappbackend.appuser;
+package com.nsoft.ratingappbackend.appuser;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

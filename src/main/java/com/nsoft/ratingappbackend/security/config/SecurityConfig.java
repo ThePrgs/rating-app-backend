@@ -1,6 +1,6 @@
-package com.example.ratingappbackend.security.config;
+package com.nsoft.ratingappbackend.security.config;
 
-import com.example.ratingappbackend.appuser.AppUserService;
+import com.nsoft.ratingappbackend.appuser.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

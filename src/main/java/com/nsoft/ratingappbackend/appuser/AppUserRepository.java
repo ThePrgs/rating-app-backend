@@ -1,4 +1,4 @@
-package com.example.ratingappbackend.appuser;
+package com.nsoft.ratingappbackend.appuser;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;

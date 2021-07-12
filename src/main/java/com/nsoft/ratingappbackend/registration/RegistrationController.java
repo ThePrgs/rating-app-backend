@@ -1,4 +1,4 @@
-package com.example.ratingappbackend.registration;
+package com.nsoft.ratingappbackend.registration;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

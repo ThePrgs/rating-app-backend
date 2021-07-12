@@ -1,4 +1,4 @@
-package com.example.ratingappbackend.appuser;
+package com.nsoft.ratingappbackend.appuser;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

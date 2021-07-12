@@ -1,7 +1,8 @@
-package com.example.ratingappbackend.rating;
+package com.nsoft.ratingappbackend.rating;
 
 import lombok.AllArgsConstructor;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ public class RatingController {
     private final RatingService ratingService;
 
     @PostMapping
-    public String create(@RequestBody RatingRequest request){
+    public ResponseEntity<RatingRequest> create(@RequestBody RatingRequest request){
         return ratingService.create(request);
 
     }
