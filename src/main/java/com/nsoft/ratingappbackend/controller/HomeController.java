@@ -2,7 +2,9 @@ package com.nsoft.ratingappbackend.controller;
 
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
+@CrossOrigin
 @RequestMapping("/api")
 public class HomeController {
 

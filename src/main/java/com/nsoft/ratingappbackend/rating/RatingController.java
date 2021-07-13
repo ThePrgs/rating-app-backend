@@ -1,6 +1,6 @@
 package com.nsoft.ratingappbackend.rating;
 
-import com.nsoft.ratingappbackend.ratingsettings.RatingSettings;
+
 import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsRepository;
 import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsResponse;
 import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsService;
@@ -35,29 +35,33 @@ public class RatingController {
     }
 
     @PutMapping("/settings")
-    public String updateRatingSettings(@Valid @RequestBody RatingSettingsResponse request) {
+    public ResponseEntity<String> updateRatingSettings(@Valid @RequestBody RatingSettingsResponse request) {
+
         try {
-
-            Optional<RatingSettings> obj = repo.findById(1L);
-
-            obj.get().setNumOfEmoticons(request.getNumOfEmoticons());
-            obj.get().setTimeout(request.getTimeout());
-            obj.get().setMsg(request.getMsg());
-
-            repo.save(obj.get());
-
-            return "Success";
-        } catch (ConstraintViolationException e) {
-            return "failed";
-        }
+            boolean isUpdated = ratingSettingsService.updateRatingSettings(request);
+            if (isUpdated) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            } catch(Exception e){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
     }
 
     @PostMapping
-    public ResponseEntity<RatingRequest> create(@RequestBody RatingRequest request){
+    public ResponseEntity<String> createRating(@RequestBody RatingRequest request){
         try {
-            return ratingService.create(request);
+            boolean response =  ratingService.createRating(request);
+            if(response) {
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            }else{
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
         } catch (NullPointerException e){
-            return new ResponseEntity<>(request, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

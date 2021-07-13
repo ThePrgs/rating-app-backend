@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+
 
 @Getter
 @AllArgsConstructor
@@ -14,6 +13,5 @@ import javax.persistence.Enumerated;
 @ToString
 public class RatingRequest {
 
-    @Enumerated(EnumType.STRING)
-    private String type;
+    private Long emojiId;
 }
