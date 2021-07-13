@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -22,12 +23,12 @@ public class RatingSettings {
 
     @Min(value = 3, message = "Number of emoticons can't be below 3!")
     @Max(value = 5, message = "Number of emoticons can't be above 5!")
-    @Column(name = "num_of_emoticons")
+    @Column(name = "num_of_emoticons", nullable = false)
     private int numOfEmoticons = 3;
 
     @Min(value = 0, message = "Timeout can't be a negative value!")
     @Max(value = 10, message = "Timeout can't be above 10!")
-    @Column(name = "timeout")
+    @Column(name = "timeout", nullable = false)
     private int timeout = 5;
 
     @Size(min = 3, max = 120, message = "Thank you for rating.")
