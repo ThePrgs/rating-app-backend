@@ -1,31 +1,34 @@
 package com.nsoft.ratingappbackend.rating;
 
 
+import com.nsoft.ratingappbackend.emoji.Emoji;
+import com.nsoft.ratingappbackend.emoji.EmojiRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class RatingService {
 
-    public final RatingRepository ratingRepository;
+    private final RatingRepository ratingRepository;
+    private final EmojiRepository emojiRepository;
 
-    public ResponseEntity<RatingRequest> create(RatingRequest request){
-
-        for (RatingEnum item:RatingEnum.values()) {
-            if(item.toString().equals(request.getType().toUpperCase())){
-                Rating rating = new Rating(
-                        item,
-                        LocalDateTime.now()
-                );
-                ratingRepository.save(rating);
-                return new ResponseEntity<>(request, HttpStatus.CREATED);
-            }
+    public boolean createRating(RatingRequest request){
+        if(emojiRepository.findById(request.getEmojiId()).isPresent()){
+            Optional<Emoji> emoji = emojiRepository.findById(request.getEmojiId());
+            Rating rating = new Rating(
+                    emoji.get(),
+                    LocalDateTime.now()
+            );
+            ratingRepository.save(rating);
+            return true;
         }
-        return new ResponseEntity<>(request,HttpStatus.BAD_REQUEST);
+        return false;
+
     }
+
 }

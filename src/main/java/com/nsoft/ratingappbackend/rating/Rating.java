@@ -3,6 +3,7 @@ package com.nsoft.ratingappbackend.rating;
 
 
 
+import com.nsoft.ratingappbackend.emoji.Emoji;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,14 +32,16 @@ public class Rating {
     )
     @Column(name="id")
     private long id;
-    @Enumerated(EnumType.STRING)
-    @Column(name="type")
-    private RatingEnum type;
+
+    @ManyToOne
+    @JoinColumn(name="emoji_id")
+    private Emoji emojiId;
     @Column(name="date")
     private LocalDateTime date;
 
-    public Rating(RatingEnum type, LocalDateTime date){
+    public Rating(Emoji emojiId, LocalDateTime date){
+        this.emojiId = emojiId;
         this.date=date;
-        this.type=type;
+
     }
 }
