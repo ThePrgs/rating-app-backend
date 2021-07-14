@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AppUserService implements UserDetailsService {
 
-    private final static String USER_NOT_FOUND_MSG = "User with that email not found";
+    private static final String USER_NOT_FOUND_MSG = "User with that email not found";
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 

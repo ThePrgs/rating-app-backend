@@ -18,7 +18,8 @@ public class EmojiController {
     private final EmojiService emojiService;
 
     @GetMapping
-    public ResponseEntity<List<Emoji>> getEmojis(){
+    public ResponseEntity<List<Emoji>> getEmojis() {
+
         List<Emoji> list = emojiService.getEmojis();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }

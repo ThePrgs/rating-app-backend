@@ -1,7 +1,6 @@
 package com.nsoft.ratingappbackend.rating;
 
 
-import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsRepository;
 import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsResponse;
 import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsService;
 import lombok.AllArgsConstructor;
@@ -19,9 +18,9 @@ import java.util.*;
 @CrossOrigin
 @RequestMapping("/api/rating")
 public class RatingController {
+
     private final RatingService ratingService;
     private final RatingSettingsService ratingSettingsService;
-    private final RatingSettingsRepository repo;
 
     @GetMapping("/settings")
     public ResponseEntity<RatingSettingsResponse> getRatingSettings() {
@@ -50,6 +49,7 @@ public class RatingController {
 
     @PostMapping
     public ResponseEntity<String> createRating(@RequestBody RatingRequest request){
+
         try {
             boolean response =  ratingService.createRating(request);
             if(response) {
