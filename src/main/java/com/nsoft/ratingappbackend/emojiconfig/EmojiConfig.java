@@ -1,6 +1,5 @@
 package com.nsoft.ratingappbackend.emojiconfig;
 
-
 import com.nsoft.ratingappbackend.emoji.Emoji;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,16 +16,14 @@ import javax.persistence.*;
 @Entity
 public class EmojiConfig {
 
-    @Id
-    @Column(name="id")
-    private Long id;
+  @Id
+  @Column(name = "id")
+  private Long id;
 
+  @Column(name = "num_of_emoticons")
+  private Integer numOfEmoticons;
 
-    @Column(name="num_of_emoticons")
-    private Integer numOfEmoticons;
-
-    @ManyToOne
-    @JoinColumn(name="emoji_id")
-    private Emoji emojiId;
-
+  @ManyToOne
+  @JoinColumn(name = "emoji_id")
+  private Emoji emojiId;
 }

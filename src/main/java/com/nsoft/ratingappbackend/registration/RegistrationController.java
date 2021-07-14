@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "api/registration")
 public class RegistrationController {
 
-    private final RegistrationService registrationService;
+  private final RegistrationService registrationService;
 
-    @PostMapping
-    public String register(@RequestBody RegistrationRequest request) {
+  @PostMapping
+  public String register(@RequestBody RegistrationRequest request) {
 
-        return registrationService.register(request);
-    }
+    return registrationService.register(request);
+  }
 }

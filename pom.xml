@@ -59,11 +59,15 @@
             <version>2.0.1.Final</version>
         </dependency>
         <dependency>
-        <groupId>org.hibernate.validator</groupId>
-        <artifactId>hibernate-validator</artifactId>
-        <version>6.0.13.Final</version>
-    </dependency>
-
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.0.13.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.googlejavaformat</groupId>
+            <artifactId>google-java-format</artifactId>
+            <version>1.10.0</version>
+        </dependency>
     </dependencies>
 
     <build>

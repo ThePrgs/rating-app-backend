@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface EmojiRepository extends JpaRepository<Emoji, Long> {
-    List<Emoji> findAllByIdIn(List<Long> listEmoji);
+  List<Emoji> findAllByIdIn(List<Long> listEmoji);
 }
