@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface EmojiConfigRepository extends JpaRepository<EmojiConfig, Long> {
-    List<EmojiConfig> findByNumOfEmoticons(Integer numOfEmoticons);
+  List<EmojiConfig> findByNumOfEmoticons(Integer numOfEmoticons);
 }

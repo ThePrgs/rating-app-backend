@@ -11,16 +11,13 @@ import java.util.List;
 @AllArgsConstructor
 public class EmojiConfigService {
 
-    private final EmojiConfigRepository emojiConfigRepository;
-    private final RatingSettingsRepository ratingSettingsRepository;
+  private final EmojiConfigRepository emojiConfigRepository;
+  private final RatingSettingsRepository ratingSettingsRepository;
 
-    public List<EmojiConfig> getEmojisConfig(){
-        List<RatingSettings> ratingSettingsList = ratingSettingsRepository.findAll();
-        int numOfEmoticons=ratingSettingsList.get(0).getNumOfEmoticons();
+  public List<EmojiConfig> getEmojisConfig() {
+    List<RatingSettings> ratingSettingsList = ratingSettingsRepository.findAll();
+    int numOfEmoticons = ratingSettingsList.get(0).getNumOfEmoticons();
 
-
-
-        return emojiConfigRepository.findByNumOfEmoticons(numOfEmoticons);
-
-    }
+    return emojiConfigRepository.findByNumOfEmoticons(numOfEmoticons);
+  }
 }

@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class RatingAppBackendApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(RatingAppBackendApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(RatingAppBackendApplication.class, args);
+  }
 }

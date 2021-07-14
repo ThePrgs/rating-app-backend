@@ -13,19 +13,18 @@ import java.util.NoSuchElementException;
 @AllArgsConstructor
 public class EmojiService {
 
-    private final EmojiRepository emojiRepository;
-    private final EmojiConfigService emojiConfigService;
+  private final EmojiRepository emojiRepository;
+  private final EmojiConfigService emojiConfigService;
 
-    public List<Emoji> getEmojis() {
-        List<EmojiConfig> emojiConfigList = emojiConfigService.getEmojisConfig();
-        if(emojiConfigList.isEmpty()){
-            throw new NoSuchElementException();
-        }
-        List<Long> emojiIDs = new ArrayList<>();
-        for(EmojiConfig ec:emojiConfigList){
-            emojiIDs.add(ec.getEmojiId().getId());
-        }
-        return emojiRepository.findAllByIdIn(emojiIDs);
-
+  public List<Emoji> getEmojis() {
+    List<EmojiConfig> emojiConfigList = emojiConfigService.getEmojisConfig();
+    if (emojiConfigList.isEmpty()) {
+      throw new NoSuchElementException();
     }
+    List<Long> emojiIDs = new ArrayList<>();
+    for (EmojiConfig ec : emojiConfigList) {
+      emojiIDs.add(ec.getEmojiId().getId());
+    }
+    return emojiRepository.findAllByIdIn(emojiIDs);
+  }
 }
