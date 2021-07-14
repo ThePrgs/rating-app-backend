@@ -3,10 +3,10 @@ package com.nsoft.ratingappbackend.registration;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
 @RestController
-@RequestMapping(path = "api/registration")
 @AllArgsConstructor
+@CrossOrigin
+@RequestMapping(path = "api/registration")
 public class RegistrationController {
 
     private final RegistrationService registrationService;

@@ -1,9 +1,7 @@
 package com.nsoft.ratingappbackend.ratingsettings;
 
-
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 
 import java.util.NoSuchElementException;
 import java.util.Optional;

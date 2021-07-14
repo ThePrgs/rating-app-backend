@@ -12,13 +12,14 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@NoArgsConstructor
 @Setter
 @Getter
-@Entity
 @EqualsAndHashCode
-@NoArgsConstructor
 @Table(name="rating")
 public class Rating {
+
     @SequenceGenerator(
             name = "rating_sequence",
             sequenceName = "rating_sequence",
@@ -31,17 +32,18 @@ public class Rating {
             generator = "rating_sequence"
     )
     @Column(name="id")
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name="emoji_id")
     private Emoji emojiId;
+
     @Column(name="date")
     private LocalDateTime date;
 
     public Rating(Emoji emojiId, LocalDateTime date){
+
         this.emojiId = emojiId;
         this.date=date;
-
     }
 }

@@ -18,17 +18,20 @@ public class RatingService {
     private final EmojiRepository emojiRepository;
 
     public boolean createRating(RatingRequest request){
+
         if(emojiRepository.findById(request.getEmojiId()).isPresent()){
+
             Optional<Emoji> emoji = emojiRepository.findById(request.getEmojiId());
             Rating rating = new Rating(
                     emoji.get(),
                     LocalDateTime.now()
             );
+
             ratingRepository.save(rating);
             return true;
         }
-        return false;
 
+        return false;
     }
 
 }
