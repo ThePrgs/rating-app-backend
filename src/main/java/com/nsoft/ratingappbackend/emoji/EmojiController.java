@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @RestController
@@ -19,8 +20,11 @@ public class EmojiController {
 
     @GetMapping
     public ResponseEntity<List<Emoji>> getEmojis() {
-
-        List<Emoji> list = emojiService.getEmojis();
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        try {
+            List<Emoji> list = emojiService.getEmojis();
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }
