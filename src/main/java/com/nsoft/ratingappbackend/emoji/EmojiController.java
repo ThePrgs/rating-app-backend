@@ -1,7 +1,6 @@
 package com.nsoft.ratingappbackend.emoji;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +21,13 @@ public class EmojiController {
 	public ResponseEntity<List<Emoji>> getEmojis() {
 		try {
 			List<Emoji> list = emojiService.getEmojis();
-			return new ResponseEntity<>(list, HttpStatus.OK);
-		} catch (NoSuchElementException e) {
+
+			if(!list.isEmpty()) {
+				return new ResponseEntity<>(list, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
