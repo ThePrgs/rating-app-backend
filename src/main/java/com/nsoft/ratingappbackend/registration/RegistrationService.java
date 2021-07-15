@@ -10,16 +10,16 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class RegistrationService {
 
-  private final AppUserService appUserService;
+	private final AppUserService appUserService;
 
-  public String register(RegistrationRequest request) {
+	public String register(RegistrationRequest request) {
 
-    return appUserService.singUpUser(
-        new AppUser(
-            request.getFirstName(),
-            request.getLastName(),
-            request.getEmail(),
-            request.getPassword(),
-            AppUserRole.USER));
-  }
+		return appUserService.singUpUser(
+			new AppUser(
+				request.getFirstName(),
+				request.getLastName(),
+				request.getEmail(),
+				request.getPassword(),
+				AppUserRole.USER));
+	}
 }

@@ -11,5 +11,5 @@ import lombok.ToString;
 @ToString
 public class RatingRequest {
 
-  private Long emojiId;
+	private Long emojiId;
 }
