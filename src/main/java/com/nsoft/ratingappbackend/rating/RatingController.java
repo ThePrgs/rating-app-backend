@@ -43,8 +43,9 @@ public class RatingController {
 			boolean isUpdated = ratingSettingsService.updateRatingSettings(request);
 			if (isUpdated) {
 				return new ResponseEntity<>(HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

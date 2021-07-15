@@ -36,7 +36,7 @@ public class RatingSettingsService {
 			ratingSettingsRepository.save(obj.get());
 			return true;
 		} else {
-			throw new NoSuchElementException();
+			return false;
 		}
 	}
 }
