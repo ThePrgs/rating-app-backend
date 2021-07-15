@@ -16,39 +16,39 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  private final BCryptPasswordEncoder bCryptPasswordEncoder;
-  private final AppUserService appUserService;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final AppUserService appUserService;
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http.csrf()
-        .disable()
-        .authorizeRequests()
-        .antMatchers("/api/private")
-        .authenticated()
-        .anyRequest()
-        .permitAll()
-        .and()
-        .formLogin()
-        .defaultSuccessUrl("/api/private")
-        .permitAll()
-        .and()
-        .logout()
-        .permitAll();
-  }
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.csrf()
+			.disable()
+			.authorizeRequests()
+			.antMatchers("/api/private")
+			.authenticated()
+			.anyRequest()
+			.permitAll()
+			.and()
+			.formLogin()
+			.defaultSuccessUrl("/api/private")
+			.permitAll()
+			.and()
+			.logout()
+			.permitAll();
+	}
 
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) {
-    auth.authenticationProvider(getDaoAuthenticationProvider());
-  }
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) {
+		auth.authenticationProvider(getDaoAuthenticationProvider());
+	}
 
-  @Bean
-  public DaoAuthenticationProvider getDaoAuthenticationProvider() {
+	@Bean
+	public DaoAuthenticationProvider getDaoAuthenticationProvider() {
 
-    var provider = new DaoAuthenticationProvider();
-    provider.setPasswordEncoder(bCryptPasswordEncoder);
-    provider.setUserDetailsService(appUserService);
+		var provider = new DaoAuthenticationProvider();
+		provider.setPasswordEncoder(bCryptPasswordEncoder);
+		provider.setUserDetailsService(appUserService);
 
-    return provider;
-  }
+		return provider;
+	}
 }

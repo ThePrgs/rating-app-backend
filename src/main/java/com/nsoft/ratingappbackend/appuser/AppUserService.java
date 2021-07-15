@@ -11,25 +11,28 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AppUserService implements UserDetailsService {
 
-  private static final String USER_NOT_FOUND_MSG = "User with that email not found";
-  private final AppUserRepository appUserRepository;
-  private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	private static final String USER_NOT_FOUND_MSG = "User with that email not found";
+	private final AppUserRepository appUserRepository;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-  @Override
-  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    return appUserRepository
-        .findByEmail(email)
-        .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
-  }
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		return appUserRepository
+			.findByEmail(email)
+			.orElseThrow(
+				() ->
+					new UsernameNotFoundException(
+						String.format(USER_NOT_FOUND_MSG, email)));
+	}
 
-  public String singUpUser(AppUser appUser) {
-    boolean userExists = appUserRepository.findByEmail(appUser.getEmail()).isPresent();
-    if (!userExists) {
-      String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
-      appUser.setPassword(encodedPassword);
-      appUserRepository.save(appUser);
-      return "Successful sing up";
-    }
-    return "User already exists";
-  }
+	public String singUpUser(AppUser appUser) {
+		boolean userExists = appUserRepository.findByEmail(appUser.getEmail()).isPresent();
+		if (!userExists) {
+			String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
+			appUser.setPassword(encodedPassword);
+			appUserRepository.save(appUser);
+			return "Successful sing up";
+		}
+		return "User already exists";
+	}
 }
