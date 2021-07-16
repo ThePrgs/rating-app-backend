@@ -7,6 +7,9 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service class for emojis
+ */
 @Service
 @AllArgsConstructor
 public class EmojiService {
@@ -14,6 +17,10 @@ public class EmojiService {
 	private final EmojiRepository emojiRepository;
 	private final EmojiConfigService emojiConfigService;
 
+	/**
+	 * Method returns list of emojis that are used in current configuration
+	 * @return List
+	 */
 	public List<Emoji> getEmojis() {
 
 		List<EmojiConfig> emojiConfigList = emojiConfigService.getEmojisConfig();
