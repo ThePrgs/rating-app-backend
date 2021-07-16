@@ -17,6 +17,30 @@ After everything has started you have your application running on http://localho
 * username: root
 * password: password123
 
-## Ratings
+## Emoji
+Emoji entity is defined as a rating category in itself. We use it for evaluation of our app through ratings. In our current setup, we store five different emojis (`VERY_HAPPY`, `HAPPY`, `MEH`, `SAD` and `VERY_SAD`). Besides that, Emoji also provide color and image values to our frontend.
+
+* Emoji controller
+
+Controller contains only one API endpoint that returns a list of emojis that are currently in use based on our [rating settings](##-rating-settings)
+
 ## Rating settings
+Rating settings is instrumental for setting our basic rating features. With this setting we can set a number of displayed emojis (3-5), our feedback message (3-120 chars) and a timeout after which our message is shown (0-10s). 
+
+## Emoji config
+With emoji config we define all possible variations of our rating settings. 
+
+Example:
+
+* Emoji config can define that rating setting with number of emojis set to 3 contains following emojis: `VERY_HAPPY`, `MEH`, and `VERY_SAD`.
+
+## Rating
+Rating is connected to Emoji entity with `@ManyToOne` relationship. This helps us to store data that contains an emoji (describes user experience) and a timestamp (current datetime of a rating). 
+
+* Rating controller
+
+Controller contains API endpoints for posting a rating, retrieving current rating settings and updating rating settings.
+
 ## Authorization
+
+
