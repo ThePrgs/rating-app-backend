@@ -1,4 +1,4 @@
-package com.nsoft.ratingappbackend.registration;
+package com.nsoft.ratingappbackend.auth.registration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
