@@ -1,7 +1,7 @@
 package com.nsoft.ratingappbackend.rating;
 
 import com.nsoft.ratingappbackend.emoji.Emoji;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +16,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+/**
+ * Entity for rating table
+ */
 @Entity
 @NoArgsConstructor
 @Setter
@@ -24,6 +28,9 @@ import lombok.Setter;
 @Table(name = "rating")
 public class Rating {
 
+	/**
+	 * Column id is the primary key of the ratings table
+	 */
 	@SequenceGenerator(
 		name = "rating_sequence",
 		sequenceName = "rating_sequence",
@@ -33,14 +40,20 @@ public class Rating {
 	@Column(name = "id")
 	private Long id;
 
+	/**
+	 * Column emoji_id is a foreign key on the table emoji
+	 */
 	@ManyToOne
 	@JoinColumn(name = "emoji_id")
 	private Emoji emojiId;
 
+	/**
+	 * Column date is the date when the emoji was saved
+	 */
 	@Column(name = "date")
-	private LocalDateTime date;
+	private Instant date;
 
-	public Rating(Emoji emojiId, LocalDateTime date) {
+	public Rating(Emoji emojiId, Instant date) {
 
 		this.emojiId = emojiId;
 		this.date = date;

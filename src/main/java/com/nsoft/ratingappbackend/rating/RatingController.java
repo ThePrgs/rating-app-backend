@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Rating Controller has the api endpoints for getting settings /api/rating/settings
+ * , updating settings /api/rating/settings and adding a rating /api/rating
+ */
 @RestController
 @AllArgsConstructor
 @CrossOrigin
@@ -24,6 +28,10 @@ public class RatingController {
 	private final RatingService ratingService;
 	private final RatingSettingsService ratingSettingsService;
 
+	/**
+	 * Method returns settings
+	 * @return ResponseEntity
+	 */
 	@GetMapping("/settings")
 	public ResponseEntity<RatingSettingsResponse> getRatingSettings() {
 
@@ -35,6 +43,11 @@ public class RatingController {
 		}
 	}
 
+	/**
+	 * Method takes request and changes settings using it
+	 * @param request object containing new settings
+	 * @return ResponseEntity
+	 */
 	@PutMapping("/settings")
 	public ResponseEntity<String> updateRatingSettings(
 		@Valid @RequestBody RatingSettingsResponse request) {
@@ -43,13 +56,19 @@ public class RatingController {
 			boolean isUpdated = ratingSettingsService.updateRatingSettings(request);
 			if (isUpdated) {
 				return new ResponseEntity<>(HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
+	/**
+	 * Method takes request containing new rating and sends it to the service
+	 * @param request object of the rating
+	 * @return ResponseEntity
+	 */
 	@PostMapping
 	public ResponseEntity<String> createRating(@RequestBody RatingRequest request) {
 
