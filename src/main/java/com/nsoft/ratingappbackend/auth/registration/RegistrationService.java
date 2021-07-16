@@ -1,4 +1,4 @@
-package com.nsoft.ratingappbackend.registration;
+package com.nsoft.ratingappbackend.auth.registration;
 
 import com.nsoft.ratingappbackend.appuser.AppUser;
 import com.nsoft.ratingappbackend.appuser.AppUserRole;
