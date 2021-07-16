@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller holds api endpoints for getting emojis
+ */
 @RestController
 @AllArgsConstructor
 @CrossOrigin
@@ -17,6 +20,10 @@ public class EmojiController {
 
 	private final EmojiService emojiService;
 
+	/**
+	 * Getter for emojis on "api/emoji endpoint
+	 * @return ResponseEntity
+	 */
 	@GetMapping
 	public ResponseEntity<List<Emoji>> getEmojis() {
 		try {

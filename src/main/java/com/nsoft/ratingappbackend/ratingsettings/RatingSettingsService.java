@@ -5,12 +5,19 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service class for the settings table
+ */
 @Service
 @AllArgsConstructor
 public class RatingSettingsService {
 
 	private final RatingSettingsRepository ratingSettingsRepository;
 
+	/**
+	 * Method gets the settings from the repository
+	 * @return RatingSettingResponse
+	 */
 	public RatingSettingsResponse getRatingSettings() {
 
 		Optional<RatingSettings> ratingSettings = ratingSettingsRepository.findById(1L);
@@ -25,6 +32,11 @@ public class RatingSettingsService {
 		}
 	}
 
+	/**
+	 * Method updates settings set in the repository
+	 * @param request request containing new settings
+	 * @return boolean
+	 */
 	public boolean updateRatingSettings(RatingSettingsResponse request) {
 
 		Optional<RatingSettings> obj = ratingSettingsRepository.findById(1L);

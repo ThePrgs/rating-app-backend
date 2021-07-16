@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * A response containing numOfEmoticons, timeout and msg
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

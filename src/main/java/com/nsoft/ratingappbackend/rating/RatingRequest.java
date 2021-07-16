@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * RatingRequest contains emojiId
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
