@@ -2,6 +2,7 @@ package com.nsoft.ratingappbackend.rating;
 
 import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsResponse;
 import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsService;
+import java.util.List;
 import java.util.NoSuchElementException;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -83,6 +84,16 @@ public class RatingController {
 		} catch (NullPointerException e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping("/statistics")
+	public ResponseEntity<List<Rating>> getRatingsBetweenDates(@Valid @RequestBody RatingsBetweenDates request) {
+		try {
+			List<Rating> ratingList = ratingService.getRatingsBetweenDates(request);
+			return new ResponseEntity<>(ratingList, HttpStatus.OK);
+		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}

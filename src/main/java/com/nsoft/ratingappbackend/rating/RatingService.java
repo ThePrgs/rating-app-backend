@@ -3,6 +3,7 @@ package com.nsoft.ratingappbackend.rating;
 import com.nsoft.ratingappbackend.emoji.Emoji;
 import com.nsoft.ratingappbackend.emoji.EmojiRepository;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,14 @@ public class RatingService {
 		}
 
 		return false;
+	}
+
+	public List<Rating> getRatingsBetweenDates(RatingsBetweenDates request) {
+		try {
+
+			return ratingRepository.findAllByDateBetween(request.getFirstDate(), request.getEndDate());
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException();
+		}
 	}
 }
