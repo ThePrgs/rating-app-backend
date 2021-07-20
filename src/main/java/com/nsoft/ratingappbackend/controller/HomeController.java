@@ -19,4 +19,9 @@ public class HomeController {
 	public String privateRoute() {
 		return "You are authorized.";
 	}
+
+	@GetMapping(path = "googletest")
+	public String googleTest() {
+		return "Eureka";
+	}
 }
