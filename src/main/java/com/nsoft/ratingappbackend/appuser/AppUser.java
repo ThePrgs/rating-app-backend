@@ -1,5 +1,6 @@
 package com.nsoft.ratingappbackend.appuser;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Collection;
 import java.util.Collections;
 import javax.persistence.Column;
@@ -11,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +32,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Table(name = "app_user")
-public class AppUser implements UserDetails {
+public class AppUser{
 
 	@SequenceGenerator(
 		name = "app_user_sequence",
@@ -40,63 +43,27 @@ public class AppUser implements UserDetails {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "first_name")
-	private String firstName;
+	@Column(name = "name",nullable = false)
+	private String name;
 
-	@Column(name = "last_name")
-	private String lastName;
-
-	@Column(name = "email")
+	@Email
+	@Column(name = "email",nullable = false)
 	private String email;
 
-	@Column(name = "password")
+	@Column(name="image_url")
+	private String imageUrl;
+
+	@JsonIgnore
 	private String password;
 
 	@Column(name = "app_user_role")
 	@Enumerated(EnumType.STRING)
 	private AppUserRole appUserRole;
 
-	public AppUser(
-		String firstName,
-		String lastName,
-		String email,
-		String password,
-		AppUserRole appUserRole) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.password = password;
-		this.appUserRole = appUserRole;
-	}
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private AuthProvider provider;
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		var authority = new SimpleGrantedAuthority(appUserRole.name());
-		return Collections.singletonList(authority);
-	}
+	private String providerId;
 
-	@Override
-	public String getUsername() {
-		return email;
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
 }

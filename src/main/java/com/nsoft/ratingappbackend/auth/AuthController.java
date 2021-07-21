@@ -3,14 +3,17 @@ package com.nsoft.ratingappbackend.auth;
 import com.nsoft.ratingappbackend.appuser.AppUserService;
 import com.nsoft.ratingappbackend.auth.login.AuthenticationRequest;
 import com.nsoft.ratingappbackend.auth.login.AuthenticationResponse;
-import com.nsoft.ratingappbackend.auth.registration.RegistrationRequest;
-import com.nsoft.ratingappbackend.auth.registration.RegistrationService;
 import com.nsoft.ratingappbackend.auth.util.JwtUtil;
+import com.nsoft.ratingappbackend.payload.AuthResponse;
+import com.nsoft.ratingappbackend.payload.LoginRequest;
+import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,33 +29,22 @@ public class AuthController {
 
 	private final AuthenticationManager authenticationManager;
 	private final AppUserService appUserService;
-	private final RegistrationService registrationService;
 	private final JwtUtil jwtTokenUtil;
 
-	@PostMapping("register")
-	public String register(@RequestBody RegistrationRequest request) {
+	@PostMapping("/login")
+	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-		return registrationService.register(request);
-	}
+		Authentication authentication = authenticationManager.authenticate(
+			new UsernamePasswordAuthenticationToken(
+				loginRequest.getEmail(),
+				loginRequest.getPassword()
+			)
+		);
 
-	@PostMapping("authenticate")
-	public ResponseEntity<?> createAuthenticationToken(
-		@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-		try {
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-			authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
-					authenticationRequest.getPassword())
-			);
-		} catch (BadCredentialsException e) {
-			throw new Exception("Incorrect username or password.", e);
-		}
-
-		final UserDetails userDetails = appUserService
-			.loadUserByUsername(authenticationRequest.getEmail());
-		final String jwt = jwtTokenUtil.generateToken(userDetails);
-
-		return ResponseEntity.ok(new AuthenticationResponse(jwt));
+		String token = jwtTokenUtil.createToken(authentication);
+		return ResponseEntity.ok(new AuthResponse(token));
 	}
 
 }

@@ -1,29 +1,28 @@
 package com.nsoft.ratingappbackend.auth.util;
 
+import com.nsoft.ratingappbackend.security.UserPrincipal;
+import com.nsoft.ratingappbackend.security.config.AppProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
+import java.security.PublicKey;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 import javax.crypto.SecretKey;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+
 public class JwtUtil {
 
-	// TODO: Hide secret string in app.properties
-	// Example
-	// @Value("${jwt.secret}")
-	// private static final String SECRET;
-	private static final String SECRET = "4072f623bf9052b3ed4fa88b1c005194945b37da56y1";
-	private final SecretKey key = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+	@Autowired
+	private AppProperties appProperties;
 
 	public String extractUsername(String token) {
 		return extractClaim(token, Claims::getSubject);
@@ -39,6 +38,8 @@ public class JwtUtil {
 	}
 
 	private Claims extractAllClaims(String token) {
+		SecretKey key = Keys
+			.hmacShaKeyFor(appProperties.getTokenSecret().getBytes(StandardCharsets.UTF_8));
 		return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
 	}
 
@@ -46,15 +47,13 @@ public class JwtUtil {
 		return extractExpiration(token).before(new Date());
 	}
 
-	public String generateToken(UserDetails userDetails) {
-		Map<String, Object> claims = new HashMap<>();
-		return createToken(claims, userDetails.getUsername());
-	}
 
-	private String createToken(Map<String, Object> claims, String subject) {
-		return Jwts.builder().setClaims(claims).setSubject(subject)
+	public String createToken(Authentication authentication) {
+		UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+		SecretKey key = Keys.hmacShaKeyFor(appProperties.getTokenSecret().getBytes(StandardCharsets.UTF_8));
+		return Jwts.builder().setClaims(userPrincipal.getAttributes()).setSubject(userPrincipal.getEmail())
 			.setIssuedAt(new Date(System.currentTimeMillis()))
-			.setExpiration(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 10)))
+			.setExpiration(new Date(System.currentTimeMillis()+Long.parseLong(appProperties.getExpirationMsec())))
 			.signWith(key, SignatureAlgorithm.HS256).compact();
 	}
 
