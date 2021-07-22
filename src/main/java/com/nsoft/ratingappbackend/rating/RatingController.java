@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @AllArgsConstructor
-@CrossOrigin
+
 @RequestMapping("/api/rating")
 public class RatingController {
 
@@ -32,6 +32,7 @@ public class RatingController {
 	 * Method returns settings
 	 * @return ResponseEntity
 	 */
+
 	@GetMapping("/settings")
 	public ResponseEntity<RatingSettingsResponse> getRatingSettings() {
 
@@ -48,6 +49,7 @@ public class RatingController {
 	 * @param request object containing new settings
 	 * @return ResponseEntity
 	 */
+
 	@PutMapping("/settings")
 	public ResponseEntity<String> updateRatingSettings(
 		@Valid @RequestBody RatingSettingsResponse request) {

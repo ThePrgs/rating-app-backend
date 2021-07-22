@@ -28,7 +28,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 	private final JwtUtil tokenProvider;
 
-
 	private final AppProperties appProperties;
 
 	private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
@@ -73,7 +72,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		URI clientRedirectUri = URI.create(uri);
 
 		// Only validate host and port. Let the clients use different paths if they want to
-		URI authorizedURI = URI.create("http://localhost:8080/api/private");
+		URI authorizedURI = URI.create(appProperties.getAuthorizedRedirectUris().get(0));
 		if(authorizedURI.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
 			&& authorizedURI.getPort() == clientRedirectUri.getPort()) {
 			return true;

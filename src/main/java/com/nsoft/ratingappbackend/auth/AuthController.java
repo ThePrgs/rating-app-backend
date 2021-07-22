@@ -8,6 +8,7 @@ import com.nsoft.ratingappbackend.payload.AuthResponse;
 import com.nsoft.ratingappbackend.payload.LoginRequest;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping(path = "/api/auth")
 public class AuthController {
 
@@ -44,7 +45,7 @@ public class AuthController {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		String token = jwtTokenUtil.createToken(authentication);
-		return ResponseEntity.ok(new AuthResponse(token));
+		return new ResponseEntity(new AuthResponse(token), HttpStatus.OK);
 	}
 
 }

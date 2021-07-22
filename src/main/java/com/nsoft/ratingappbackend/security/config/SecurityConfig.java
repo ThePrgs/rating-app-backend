@@ -8,7 +8,6 @@ import com.nsoft.ratingappbackend.security.oauth2.HttpCookieOAuth2AuthorizationR
 import com.nsoft.ratingappbackend.security.oauth2.OAuth2AuthenticationFailureHandler;
 import com.nsoft.ratingappbackend.security.oauth2.OAuth2AuthenticationSuccessHandler;
 import lombok.AllArgsConstructor;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,21 +50,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.cors()
-			.and()
+			.disable()
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.csrf().disable()
 			.formLogin().disable()
 			.authorizeRequests()
-			.antMatchers("/api/private","/api/auth/**", "/api/oauth2/**")
+			.antMatchers("/api/test", "/api/private", "/api/rating/settings")
 			.authenticated()
 			.anyRequest()
 			.permitAll()
 			.and()
-			.oauth2Login().defaultSuccessUrl("/api/private")
+			.oauth2Login()
 			.authorizationEndpoint()
-			.baseUri("/oauth2/authorize")
+			.baseUri("/api/auth/login")
 			.authorizationRequestRepository(cookieAuthorizationRequestRepository)
 			.and()
 			.redirectionEndpoint()

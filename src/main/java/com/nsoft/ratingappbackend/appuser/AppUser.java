@@ -53,6 +53,9 @@ public class AppUser{
 	@Column(name="image_url")
 	private String imageUrl;
 
+	@Column(name="email_verified", nullable = false)
+	private Boolean emailVerified = false;
+
 	@JsonIgnore
 	private String password;
 

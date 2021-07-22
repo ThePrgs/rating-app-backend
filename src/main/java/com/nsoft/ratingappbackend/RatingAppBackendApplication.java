@@ -9,6 +9,5 @@ public class RatingAppBackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(RatingAppBackendApplication.class, args);
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	}
 }
