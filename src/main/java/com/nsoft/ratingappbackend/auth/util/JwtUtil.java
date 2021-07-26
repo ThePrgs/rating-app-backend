@@ -19,14 +19,17 @@ public class JwtUtil {
 
 	@SneakyThrows
 	public boolean validateToken(String token) {
-		JsonObject json = appUserService.validateAccessToken(token);
-		String mail = json.get("email").getAsString();
-		Optional<AppUser> user = appUserRepository.findByEmail(mail);
+		try {
+			JsonObject json = appUserService.validateAccessToken(token);
+			String mail = json.get("email").getAsString();
+			Optional<AppUser> user = appUserRepository.findByEmail(mail);
 
-		if(user.isPresent()){
-			return true;
-		}
-		else {
+			if (user.isPresent()) {
+				return true;
+			} else {
+				return false;
+			}
+		}catch (Exception e){
 			return false;
 		}
 	}

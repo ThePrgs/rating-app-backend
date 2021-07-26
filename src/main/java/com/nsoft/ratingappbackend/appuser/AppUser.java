@@ -60,9 +60,7 @@ public class AppUser implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		for(AppUserRole role: AppUserRole.values()){
-			authorities.add(new SimpleGrantedAuthority(role.toString()));
-		}
+		authorities.add(new SimpleGrantedAuthority("ROLE_"+ this.getAppUserRole()));
 
 		return authorities;
 	}

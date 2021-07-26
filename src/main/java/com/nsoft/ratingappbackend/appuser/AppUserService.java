@@ -56,15 +56,21 @@ public class AppUserService implements UserDetailsService{
 	}
 
 	public JsonObject validateAccessToken(String token) throws IOException {
-		URL url = new URL("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token="+token);
-		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
-		con.setRequestMethod("GET");
+		try {
+			URL url = new URL(
+				"https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + token);
+			HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+			con.setRequestMethod("GET");
 
-		BufferedReader in = new BufferedReader(
-			new InputStreamReader(con.getInputStream()));
-		JsonObject json = JsonParser.parseReader(in).getAsJsonObject();
-		in.close();
-		return json;
+			BufferedReader in = new BufferedReader(
+				new InputStreamReader(con.getInputStream()));
+			JsonObject json = JsonParser.parseReader(in).getAsJsonObject();
+			in.close();
+			return json;
+		}catch (Exception e){
+			return new JsonObject();
+		}
+
 	}
 
 	@SneakyThrows
@@ -84,10 +90,10 @@ public class AppUserService implements UserDetailsService{
 		else{
 			AppUser newUser = new AppUser(
 				mail,
-				AppUserRole.ROLE_USER
+				AppUserRole.USER
 			);
 			appUserRepository.save(newUser);
-			response.setRole(AppUserRole.ROLE_USER);
+			response.setRole(AppUserRole.USER);
 			response.setStatus("200 OK");
 			return response;
 		}
