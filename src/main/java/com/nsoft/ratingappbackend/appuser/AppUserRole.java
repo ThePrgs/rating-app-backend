@@ -1,5 +1,6 @@
 package com.nsoft.ratingappbackend.appuser;
 
 public enum AppUserRole {
-	USER
+	ROLE_USER,
+	ROLE_ADMIN
 }

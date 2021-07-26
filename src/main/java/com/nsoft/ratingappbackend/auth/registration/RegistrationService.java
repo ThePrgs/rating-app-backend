@@ -12,14 +12,4 @@ public class RegistrationService {
 
 	private final AppUserService appUserService;
 
-	public String register(RegistrationRequest request) {
-
-		return appUserService.singUpUser(
-			new AppUser(
-				request.getFirstName(),
-				request.getLastName(),
-				request.getEmail(),
-				request.getPassword(),
-				AppUserRole.USER));
-	}
 }

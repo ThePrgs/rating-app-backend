@@ -29,13 +29,13 @@ public class AuthController {
 	private final RegistrationService registrationService;
 	private final JwtUtil jwtTokenUtil;
 
-	@PostMapping("register")
+	/*/@PostMapping("register")
 	public String register(@RequestBody RegistrationRequest request) {
 
 		return registrationService.register(request);
-	}
+	}/*/
 
-	@PostMapping("authenticate")
+	/*/@PostMapping("authenticate")
 	public ResponseEntity<?> createAuthenticationToken(
 		@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
 		try {
@@ -53,6 +53,6 @@ public class AuthController {
 		final String jwt = jwtTokenUtil.generateToken(userDetails);
 
 		return ResponseEntity.ok(new AuthenticationResponse(jwt));
-	}
+	}/*/
 
 }

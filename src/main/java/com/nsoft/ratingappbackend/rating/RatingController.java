@@ -3,6 +3,7 @@ package com.nsoft.ratingappbackend.rating;
 import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsResponse;
 import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsService;
 import java.util.NoSuchElementException;
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -49,6 +50,7 @@ public class RatingController {
 	 * @return ResponseEntity
 	 */
 	@PutMapping("/settings")
+	@RolesAllowed("ADMIN")
 	public ResponseEntity<String> updateRatingSettings(
 		@Valid @RequestBody RatingSettingsResponse request) {
 

@@ -1,7 +1,8 @@
 package com.nsoft.ratingappbackend.appuser;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,63 +42,58 @@ public class AppUser implements UserDetails {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "first_name")
-	private String firstName;
-
-	@Column(name = "last_name")
-	private String lastName;
-
-	@Column(name = "email")
+	@Email
+	@Column(name = "email",nullable = false,unique = true)
 	private String email;
 
-	@Column(name = "password")
-	private String password;
 
 	@Column(name = "app_user_role")
 	@Enumerated(EnumType.STRING)
 	private AppUserRole appUserRole;
 
-	public AppUser(
-		String firstName,
-		String lastName,
-		String email,
-		String password,
-		AppUserRole appUserRole) {
-		this.firstName = firstName;
-		this.lastName = lastName;
+	public AppUser(String email, AppUserRole appUserRole) {
 		this.email = email;
-		this.password = password;
 		this.appUserRole = appUserRole;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		var authority = new SimpleGrantedAuthority(appUserRole.name());
-		return Collections.singletonList(authority);
+
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		for(AppUserRole role: AppUserRole.values()){
+			authorities.add(new SimpleGrantedAuthority(role.toString()));
+		}
+
+		return authorities;
+	}
+
+	@Override
+	public String getPassword() {
+		return null;
 	}
 
 	@Override
 	public String getUsername() {
-		return email;
+		return null;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return false;
 	}
 }

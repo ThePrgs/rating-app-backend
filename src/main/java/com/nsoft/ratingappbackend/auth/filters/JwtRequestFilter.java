@@ -1,5 +1,7 @@
 package com.nsoft.ratingappbackend.auth.filters;
 
+import com.google.gson.JsonObject;
+import com.nsoft.ratingappbackend.appuser.AppUserRepository;
 import com.nsoft.ratingappbackend.appuser.AppUserService;
 import com.nsoft.ratingappbackend.auth.util.JwtUtil;
 import java.io.IOException;
@@ -8,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,12 +18,15 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-@Component
+
 @AllArgsConstructor
+@Component
+@Configuration
 public class JwtRequestFilter extends OncePerRequestFilter {
 
 	private final AppUserService appUserService;
 	private final JwtUtil jwtUtil;
+	private final AppUserRepository appUserRepository;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request,
@@ -31,22 +37,22 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		final String authorizationHeader = request.getHeader("Authorization");
 
 		String email = null;
-		String jwt = null;
+		String token = null;
 
 		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-			jwt = authorizationHeader.substring(7);
-			email = jwtUtil.extractUsername(jwt);
+			token = authorizationHeader.substring(7);
+			JsonObject json = appUserService.validateAccessToken(token);
+			email = json.get("email").getAsString();
 		}
 
 		if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-			UserDetails userDetails = this.appUserService.loadUserByUsername(email);
+			UserDetails user = appUserService.loadUserByUsername(email);
 
-			if (jwtUtil.validateToken(jwt, userDetails)) {
-
+			if (jwtUtil.validateToken(token)) {
 				var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-					userDetails,
+					user,
 					null,
-					userDetails.getAuthorities()
+					user.getAuthorities()
 				);
 
 				usernamePasswordAuthenticationToken
