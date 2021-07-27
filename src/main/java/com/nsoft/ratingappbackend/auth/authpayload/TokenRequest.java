@@ -1,4 +1,4 @@
-package com.nsoft.ratingappbackend.auth.registration;
+package com.nsoft.ratingappbackend.auth.authpayload;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class RegistrationRequest {
+public class TokenRequest {
 
 	private String accessToken;
 }

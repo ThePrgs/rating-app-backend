@@ -2,8 +2,8 @@ package com.nsoft.ratingappbackend.appuser;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.nsoft.ratingappbackend.auth.registration.RegistrationRequest;
-import com.nsoft.ratingappbackend.security.config.ApplicationProperties;
+import com.nsoft.ratingappbackend.auth.authpayload.RoleResponse;
+import com.nsoft.ratingappbackend.auth.authpayload.TokenRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,7 +15,6 @@ import lombok.SneakyThrows;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,37 +22,22 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
-public class AppUserService implements UserDetailsService{
+public class AppUserService implements UserDetailsService {
 
 	private static final String USER_NOT_FOUND_MSG = "User with that email not found";
 	private final AppUserRepository appUserRepository;
-	private final BCryptPasswordEncoder bCryptPasswordEncoder;
-	private final ApplicationProperties applicationProperties;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		AppUser appUser = appUserRepository
+		return appUserRepository
 			.findByEmail(email)
 			.orElseThrow(
 				() ->
 					new UsernameNotFoundException(
 						String.format(USER_NOT_FOUND_MSG, email)));
-		return appUser;
+
 	}
 
-	/**
-	 * Adds new user into the repository
-	 * @param appUser user information
-	 * @return String
-	 */
-	public String singUpUser(AppUser appUser) {
-		boolean userExists = appUserRepository.findByEmail(appUser.getEmail()).isPresent();
-		if (!userExists) {
-			appUserRepository.save(appUser);
-			return "Successful sing up";
-		}
-		return "User already exists";
-	}
 
 	public JsonObject validateAccessToken(String token) throws IOException {
 		try {
@@ -67,27 +51,25 @@ public class AppUserService implements UserDetailsService{
 			JsonObject json = JsonParser.parseReader(in).getAsJsonObject();
 			in.close();
 			return json;
-		}catch (Exception e){
+		} catch (Exception e) {
 			return new JsonObject();
 		}
 
 	}
 
 	@SneakyThrows
-	public RoleResponse singIn(RegistrationRequest request)throws IOException {
-		System.out.println(request.getAccessToken());
+	public RoleResponse singIn(TokenRequest request) throws IOException {
 		JsonObject json = validateAccessToken(request.getAccessToken());
 		String mail = json.get("email").getAsString();
 		Optional<AppUser> user = appUserRepository.findByEmail(mail);
 
 		RoleResponse response = new RoleResponse();
-		if(user.isPresent()){
+		if (user.isPresent()) {
 			AppUserRole userRole = user.get().getAppUserRole();
 			response.setStatus("200 OK");
 			response.setRole(userRole);
 			return response;
-		}
-		else{
+		} else {
 			AppUser newUser = new AppUser(
 				mail,
 				AppUserRole.USER

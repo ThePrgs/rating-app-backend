@@ -18,6 +18,7 @@ public class EmojiConfigService {
 
 	/**
 	 * Method returns List of EmojiConfigs filtered using numOfEmoticons
+	 *
 	 * @return List
 	 */
 	public List<EmojiConfig> getEmojisConfig() {

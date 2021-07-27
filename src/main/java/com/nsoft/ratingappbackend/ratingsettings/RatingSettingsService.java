@@ -16,6 +16,7 @@ public class RatingSettingsService {
 
 	/**
 	 * Method gets the settings from the repository
+	 *
 	 * @return RatingSettingResponse
 	 */
 	public RatingSettingsResponse getRatingSettings() {
@@ -34,6 +35,7 @@ public class RatingSettingsService {
 
 	/**
 	 * Method updates settings set in the repository
+	 *
 	 * @param request request containing new settings
 	 * @return boolean
 	 */

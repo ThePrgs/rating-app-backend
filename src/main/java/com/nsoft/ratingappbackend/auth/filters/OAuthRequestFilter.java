@@ -22,7 +22,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @AllArgsConstructor
 @Component
 @Configuration
-public class JwtRequestFilter extends OncePerRequestFilter {
+public class OAuthRequestFilter extends OncePerRequestFilter {
 
 	private final AppUserService appUserService;
 	private final JwtUtil jwtUtil;
@@ -40,13 +40,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		String token = null;
 
 		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-				token = authorizationHeader.substring(7);
-				JsonObject json = appUserService.validateAccessToken(token);
-				try {
-					email = json.get("email").getAsString();
-				}catch (RuntimeException e){
-					response.setStatus(401);
-				}
+			token = authorizationHeader.substring(7);
+			JsonObject json = appUserService.validateAccessToken(token);
+			try {
+				email = json.get("email").getAsString();
+			} catch (RuntimeException e) {
+				response.setStatus(401);
+			}
 		}
 
 		if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {

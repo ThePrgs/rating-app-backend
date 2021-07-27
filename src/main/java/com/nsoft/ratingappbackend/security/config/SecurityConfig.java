@@ -1,6 +1,6 @@
 package com.nsoft.ratingappbackend.security.config;
 
-import com.nsoft.ratingappbackend.auth.filters.JwtRequestFilter;
+import com.nsoft.ratingappbackend.auth.filters.OAuthRequestFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,17 +17,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-	private final JwtRequestFilter jwtRequestFilter;
+	private final OAuthRequestFilter oAuthRequestFilter;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
-			.authorizeRequests().antMatchers("/api/private", "/api/rating/settings").hasRole("ADMIN")
+			.authorizeRequests().antMatchers("/api/rating/settings").hasRole("ADMIN")
 			.anyRequest()
 			.permitAll()
 			.and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(oAuthRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Override

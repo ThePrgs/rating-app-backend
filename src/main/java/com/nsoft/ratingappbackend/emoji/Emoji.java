@@ -32,8 +32,7 @@ public class Emoji {
 	private String name;
 
 	/**
-	 * Column color is used to set the color of our emoji
-	 * using RGB mapping
+	 * Column color is used to set the color of our emoji using RGB mapping
 	 */
 	@Column(name = "color")
 	private String color;
@@ -44,10 +43,4 @@ public class Emoji {
 	@Column(name = "image")
 	private String image;
 
-
-	public Emoji(String name, String color, String image) {
-		this.name = name;
-		this.color = color;
-		this.image = image;
-	}
 }

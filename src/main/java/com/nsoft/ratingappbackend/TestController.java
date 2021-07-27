@@ -1,8 +1,8 @@
 package com.nsoft.ratingappbackend;
 
 import com.nsoft.ratingappbackend.appuser.AppUserService;
-import com.nsoft.ratingappbackend.appuser.RoleResponse;
-import com.nsoft.ratingappbackend.auth.registration.RegistrationRequest;
+import com.nsoft.ratingappbackend.auth.authpayload.RoleResponse;
+import com.nsoft.ratingappbackend.auth.authpayload.TokenRequest;
 import java.io.IOException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,23 +14,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("/")
 @AllArgsConstructor
 public class TestController {
+
 	private final AppUserService appUserService;
 
 
 	@GetMapping("test")
-	public ResponseEntity<RoleResponse> payloadTest(@RequestBody RegistrationRequest request) throws IOException{
+	public ResponseEntity<RoleResponse> payloadTest(@RequestBody TokenRequest request)
+		throws IOException {
 		try {
 			RoleResponse response = appUserService.singIn(request);
-			if(response.getRole()!=null) {
+			if (response.getRole() != null) {
 				return new ResponseEntity<>(response, HttpStatus.OK);
-			}
-			else{
+			} else {
 				return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 			}
-		}catch (IOException e){
+		} catch (IOException e) {
 			RoleResponse response = new RoleResponse();
 			response.setStatus("401 Unauthorized");
-			return new ResponseEntity<>(response,HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 		}
 	}
 

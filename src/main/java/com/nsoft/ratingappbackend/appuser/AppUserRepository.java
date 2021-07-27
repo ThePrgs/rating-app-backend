@@ -12,6 +12,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
 	/**
 	 * Method compares emails in order to see if the user exists
+	 *
 	 * @param email email of the user
 	 * @return AppUser
 	 */

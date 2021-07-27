@@ -1,6 +1,7 @@
-package com.nsoft.ratingappbackend.appuser;
+package com.nsoft.ratingappbackend.auth.authpayload;
 
 
+import com.nsoft.ratingappbackend.appuser.AppUserRole;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import lombok.AllArgsConstructor;

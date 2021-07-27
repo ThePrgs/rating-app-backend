@@ -19,14 +19,14 @@ public class RatingService {
 
 	/**
 	 * Method takes request containing emojiId and creates a rating with that id
+	 *
 	 * @param request emojiID
 	 * @return boolean
 	 */
 	public boolean createRating(RatingRequest request) {
+		Optional<Emoji> emoji = emojiRepository.findById(request.getEmojiId());
+		if (emoji.isPresent()) {
 
-		if (emojiRepository.findById(request.getEmojiId()).isPresent()) {
-
-			Optional<Emoji> emoji = emojiRepository.findById(request.getEmojiId());
 			Rating rating = new Rating(emoji.get(), Instant.now());
 
 			ratingRepository.save(rating);

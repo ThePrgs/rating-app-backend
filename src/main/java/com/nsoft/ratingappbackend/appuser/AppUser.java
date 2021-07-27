@@ -43,7 +43,7 @@ public class AppUser implements UserDetails {
 	private Long id;
 
 	@Email
-	@Column(name = "email",nullable = false,unique = true)
+	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 
 
@@ -60,7 +60,7 @@ public class AppUser implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority("ROLE_"+ this.getAppUserRole()));
+		authorities.add(new SimpleGrantedAuthority("ROLE_" + this.getAppUserRole()));
 
 		return authorities;
 	}
