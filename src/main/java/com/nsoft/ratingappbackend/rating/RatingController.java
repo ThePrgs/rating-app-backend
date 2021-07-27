@@ -2,7 +2,6 @@ package com.nsoft.ratingappbackend.rating;
 
 import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsResponse;
 import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsService;
-import java.util.List;
 import java.util.NoSuchElementException;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -34,7 +33,7 @@ public class RatingController {
 	 *
 	 * @return ResponseEntity
 	 */
-	@GetMapping("/settings")
+	@GetMapping("/current-settings")
 	public ResponseEntity<RatingSettingsResponse> getRatingSettings() {
 
 		try {
@@ -94,12 +93,22 @@ public class RatingController {
 	}
 
 	@GetMapping("/statistics")
-	public ResponseEntity<List<Rating>> getRatingsBetweenDates(@Valid @RequestBody RatingsBetweenDates request) {
+	public ResponseEntity<RatingsBetweenDatesResponse> getRatingsBetweenDates(
+		@Valid @RequestBody RatingsBetweenDatesRequest request) {
+		RatingsBetweenDatesResponse response = new RatingsBetweenDatesResponse();
 		try {
-			List<Rating> ratingList = ratingService.getRatingsBetweenDates(request);
-			return new ResponseEntity<>(ratingList, HttpStatus.OK);
+			if (ratingService.areDatesValid(request.getFirstDate(), request.getEndDate())) {
+				// if difference between requested dates is 30 days
+				response = ratingService.getRatingsBetweenDates(request);
+				return new ResponseEntity<>(response, HttpStatus.OK);
+			} else {
+				response.setMessage("400 Bad Request! Difference between dates might be more than 30 days!");
+				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+			}
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			response.setMessage("400 Bad Request!");
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
 }
+

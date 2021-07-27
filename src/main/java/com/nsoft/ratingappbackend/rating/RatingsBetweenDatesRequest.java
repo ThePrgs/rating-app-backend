@@ -11,7 +11,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class RatingsBetweenDates {
+public class RatingsBetweenDatesRequest {
 
 	@NotNull
 	private Instant firstDate;

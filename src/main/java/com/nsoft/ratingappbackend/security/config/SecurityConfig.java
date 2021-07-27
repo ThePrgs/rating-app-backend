@@ -21,12 +21,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable()
-			.authorizeRequests().antMatchers("/api/rating/settings").hasRole("ADMIN")
-			.anyRequest()
-			.permitAll()
+		http
+				.cors()
 			.and()
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+				.csrf().disable()
+				.authorizeRequests().antMatchers("/api/rating/settings").hasRole("ADMIN")
+				.antMatchers("/api/ratings/statistics").hasAnyRole("USER", "ADMIN")
+				.anyRequest()
+				.permitAll()
+			.and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(oAuthRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 
