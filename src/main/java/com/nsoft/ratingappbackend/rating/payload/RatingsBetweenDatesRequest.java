@@ -1,4 +1,4 @@
-package com.nsoft.ratingappbackend.rating;
+package com.nsoft.ratingappbackend.rating.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,5 +1,6 @@
 package com.nsoft.ratingappbackend.rating;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nsoft.ratingappbackend.emoji.Emoji;
 import java.time.Instant;
 import javax.persistence.Column;
@@ -37,6 +38,7 @@ public class Rating {
 		sequenceName = "rating_sequence",
 		allocationSize = 1)
 	@Id
+	@JsonIgnore
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rating_sequence")
 	@Column(name = "id")
 	private Long id;

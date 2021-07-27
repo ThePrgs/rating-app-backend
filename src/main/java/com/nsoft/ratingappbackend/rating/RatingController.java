@@ -1,8 +1,12 @@
 package com.nsoft.ratingappbackend.rating;
 
-import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsResponse;
+import com.nsoft.ratingappbackend.rating.payload.RatingRequest;
+import com.nsoft.ratingappbackend.rating.payload.RatingResponse;
+import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesRequest;
+import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesResponse;
+import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsRequest;
+import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsResponse;
 import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsService;
-import java.util.NoSuchElementException;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,12 +39,18 @@ public class RatingController {
 	 */
 	@GetMapping("/current-settings")
 	public ResponseEntity<RatingSettingsResponse> getRatingSettings() {
-
+		RatingSettingsResponse response = new RatingSettingsResponse();
 		try {
-			RatingSettingsResponse response = ratingSettingsService.getRatingSettings();
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		} catch (NoSuchElementException nse) {
-			return new ResponseEntity<>(new RatingSettingsResponse(), HttpStatus.BAD_REQUEST);
+			response = ratingSettingsService.getRatingSettings();
+			if(response.getRatingSettings() != null) {
+
+				return new ResponseEntity<>(response, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			response.setMessage("An error has occurred!");
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -50,12 +60,9 @@ public class RatingController {
 	 * @param request object containing new settings
 	 * @return ResponseEntity
 	 */
-
-
 	@PutMapping("/settings")
 	public ResponseEntity<String> updateRatingSettings(
-		@Valid @RequestBody RatingSettingsResponse request) {
-
+		@Valid @RequestBody RatingSettingsRequest request) {
 		try {
 			boolean isUpdated = ratingSettingsService.updateRatingSettings(request);
 			if (isUpdated) {
@@ -75,24 +82,25 @@ public class RatingController {
 	 * @return ResponseEntity
 	 */
 	@PostMapping
-	public ResponseEntity<String> createRating(@RequestBody RatingRequest request) {
-
+	public ResponseEntity<RatingResponse> createRating(@RequestBody RatingRequest request) {
+			RatingResponse response = new RatingResponse();
 		try {
-			boolean response = ratingService.createRating(request);
-			if (response) {
-				return new ResponseEntity<>(HttpStatus.CREATED);
+			response = ratingService.createRating(request);
+			if(response.getRating() != null) {
+				return new ResponseEntity<>(response, HttpStatus.CREATED);
 			} else {
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 			}
-
 		} catch (NullPointerException e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			response.setMessage(HttpStatus.BAD_REQUEST.toString());
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			response.setMessage(HttpStatus.BAD_REQUEST.toString());
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
 
-	@GetMapping("/statistics")
+	@PostMapping("/statistics")
 	public ResponseEntity<RatingsBetweenDatesResponse> getRatingsBetweenDates(
 		@Valid @RequestBody RatingsBetweenDatesRequest request) {
 		RatingsBetweenDatesResponse response = new RatingsBetweenDatesResponse();
@@ -102,11 +110,11 @@ public class RatingController {
 				response = ratingService.getRatingsBetweenDates(request);
 				return new ResponseEntity<>(response, HttpStatus.OK);
 			} else {
-				response.setMessage("400 Bad Request! Difference between dates might be more than 30 days!");
+				response.setMessage(HttpStatus.BAD_REQUEST + "! Difference between dates might be more than 30 days!");
 				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 			}
 		} catch (IllegalArgumentException e) {
-			response.setMessage("400 Bad Request!");
+			response.setMessage(HttpStatus.BAD_REQUEST.toString());
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}

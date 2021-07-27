@@ -1,5 +1,6 @@
-package com.nsoft.ratingappbackend.rating;
+package com.nsoft.ratingappbackend.rating.payload;
 
+import com.nsoft.ratingappbackend.rating.Rating;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.List;
