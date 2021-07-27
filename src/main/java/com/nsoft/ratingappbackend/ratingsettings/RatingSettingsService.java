@@ -1,7 +1,8 @@
 package com.nsoft.ratingappbackend.ratingsettings;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
+import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsRequest;
+import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +23,20 @@ public class RatingSettingsService {
 	public RatingSettingsResponse getRatingSettings() {
 
 		Optional<RatingSettings> ratingSettings = ratingSettingsRepository.findById(1L);
-		if (ratingSettings.isPresent()) {
+		RatingSettingsResponse ratingSettingsResponse = new RatingSettingsResponse();
+		if(ratingSettings.isPresent()) {
 
-			return new RatingSettingsResponse(
+			ratingSettingsResponse.setMessage("Rating settings found.");
+			ratingSettingsResponse.setRatingSettings(
+				new RatingSettings(
 				ratingSettings.get().getNumOfEmoticons(),
 				ratingSettings.get().getTimeout(),
-				ratingSettings.get().getMsg());
+				ratingSettings.get().getMsg()
+			));
+			return ratingSettingsResponse;
 		} else {
-			throw new NoSuchElementException();
+			ratingSettingsResponse.setMessage("No rating settings found.");
+			return ratingSettingsResponse;
 		}
 	}
 
@@ -39,7 +46,7 @@ public class RatingSettingsService {
 	 * @param request request containing new settings
 	 * @return boolean
 	 */
-	public boolean updateRatingSettings(RatingSettingsResponse request) {
+	public boolean updateRatingSettings(RatingSettingsRequest request) {
 
 		Optional<RatingSettings> obj = ratingSettingsRepository.findById(1L);
 		if (obj.isPresent()) {
