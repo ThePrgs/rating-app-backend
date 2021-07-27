@@ -19,6 +19,7 @@ public class EmojiService {
 
 	/**
 	 * Method returns list of emojis that are used in current configuration
+	 *
 	 * @return List
 	 */
 	public List<Emoji> getEmojis() {

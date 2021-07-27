@@ -22,6 +22,7 @@ public class EmojiController {
 
 	/**
 	 * Getter for emojis on "api/emoji endpoint
+	 *
 	 * @return ResponseEntity
 	 */
 	@GetMapping
@@ -29,7 +30,7 @@ public class EmojiController {
 		try {
 			List<Emoji> list = emojiService.getEmojis();
 
-			if(!list.isEmpty()) {
+			if (!list.isEmpty()) {
 				return new ResponseEntity<>(list, HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

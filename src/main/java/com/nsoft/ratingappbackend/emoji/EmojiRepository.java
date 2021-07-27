@@ -12,6 +12,7 @@ public interface EmojiRepository extends JpaRepository<Emoji, Long> {
 
 	/**
 	 * JPQL that finds emojis by id
+	 *
 	 * @param listEmoji list containing emoji ids
 	 * @return List
 	 */

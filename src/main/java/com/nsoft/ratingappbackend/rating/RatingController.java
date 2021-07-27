@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Rating Controller has the api endpoints for getting settings /api/rating/settings
- * , updating settings /api/rating/settings and adding a rating /api/rating
+ * Rating Controller has the api endpoints for getting settings /api/rating/settings , updating
+ * settings /api/rating/settings and adding a rating /api/rating
  */
 @RestController
 @AllArgsConstructor
@@ -30,6 +30,7 @@ public class RatingController {
 
 	/**
 	 * Method returns settings
+	 *
 	 * @return ResponseEntity
 	 */
 	@GetMapping("/settings")
@@ -45,9 +46,12 @@ public class RatingController {
 
 	/**
 	 * Method takes request and changes settings using it
+	 *
 	 * @param request object containing new settings
 	 * @return ResponseEntity
 	 */
+
+
 	@PutMapping("/settings")
 	public ResponseEntity<String> updateRatingSettings(
 		@Valid @RequestBody RatingSettingsResponse request) {
@@ -66,6 +70,7 @@ public class RatingController {
 
 	/**
 	 * Method takes request containing new rating and sends it to the service
+	 *
 	 * @param request object of the rating
 	 * @return ResponseEntity
 	 */
