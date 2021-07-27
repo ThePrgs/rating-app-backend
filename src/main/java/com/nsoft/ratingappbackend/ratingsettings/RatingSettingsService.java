@@ -50,7 +50,7 @@ public class RatingSettingsService {
 	 * @return boolean
 	 */
 
-	public boolean updateRatingSettings(RatingSettingsResponse request) {
+	public boolean updateRatingSettings(RatingSettingsRequest request) {
 		Pusher pusher = new Pusher("1233197", "f47f2ad6b875f07ee437", "f7193bdaff0fcff4990a");
 		pusher.setCluster("eu");
 		pusher.setEncrypted(true);
