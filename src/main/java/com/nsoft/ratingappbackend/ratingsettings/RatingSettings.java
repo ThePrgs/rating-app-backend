@@ -8,6 +8,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class RatingSettings {
 	 * Column ID is the primary key of the table
 	 */
 	@Id
+	@JsonIgnore
 	@Column(name = "id")
 	private Long id = 1L;
 
@@ -53,5 +55,11 @@ public class RatingSettings {
 	@Size(min = 3, max = 120, message = "Message can be between 3 and 120 characters.")
 	@Column(name = "msg", columnDefinition = "varchar(255) default 'Thank you for rating.'")
 	private String msg = "Thank you for your rating";
+
+	public RatingSettings(Integer numOfEmoticons, Integer timeout, String msg){
+		this.numOfEmoticons = numOfEmoticons;
+		this.timeout = timeout;
+		this.msg = msg;
+	}
 
 }

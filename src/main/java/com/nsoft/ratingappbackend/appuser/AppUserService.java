@@ -2,8 +2,8 @@ package com.nsoft.ratingappbackend.appuser;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.nsoft.ratingappbackend.auth.authpayload.RoleResponse;
-import com.nsoft.ratingappbackend.auth.authpayload.TokenRequest;
+import com.nsoft.ratingappbackend.auth.payload.RoleResponse;
+import com.nsoft.ratingappbackend.auth.payload.TokenRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

@@ -1,4 +1,4 @@
-package com.nsoft.ratingappbackend.ratingsettings;
+package com.nsoft.ratingappbackend.ratingsettings.payload;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RatingSettingsResponse {
+public class RatingSettingsRequest {
 
 	@Min(value = 3, message = "Number of emoticons can't be below 3!")
 	@Max(value = 5, message = "Number of emoticons can't be above 5!")

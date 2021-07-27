@@ -1,8 +1,8 @@
 package com.nsoft.ratingappbackend;
 
 import com.nsoft.ratingappbackend.appuser.AppUserService;
-import com.nsoft.ratingappbackend.auth.authpayload.RoleResponse;
-import com.nsoft.ratingappbackend.auth.authpayload.TokenRequest;
+import com.nsoft.ratingappbackend.auth.payload.RoleResponse;
+import com.nsoft.ratingappbackend.auth.payload.TokenRequest;
 import java.io.IOException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

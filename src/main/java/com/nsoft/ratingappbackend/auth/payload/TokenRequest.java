@@ -1,18 +1,15 @@
-package com.nsoft.ratingappbackend.rating;
+package com.nsoft.ratingappbackend.auth.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-/**
- * RatingRequest contains emojiId
- */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class RatingRequest {
+public class TokenRequest {
 
-	private Long emojiId;
+	private String accessToken;
 }

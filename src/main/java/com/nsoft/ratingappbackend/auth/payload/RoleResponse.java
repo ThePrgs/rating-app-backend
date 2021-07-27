@@ -1,4 +1,4 @@
-package com.nsoft.ratingappbackend.auth.authpayload;
+package com.nsoft.ratingappbackend.auth.payload;
 
 
 import com.nsoft.ratingappbackend.appuser.AppUserRole;
