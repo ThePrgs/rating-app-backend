@@ -1,5 +1,7 @@
 package com.nsoft.ratingappbackend.ratingsettings;
 
+import com.pusher.rest.Pusher;
+import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -40,6 +42,9 @@ public class RatingSettingsService {
 	 * @return boolean
 	 */
 	public boolean updateRatingSettings(RatingSettingsResponse request) {
+		Pusher pusher = new Pusher("1233197", "f47f2ad6b875f07ee437", "f7193bdaff0fcff4990a");
+		pusher.setCluster("eu");
+		pusher.setEncrypted(true);
 
 		Optional<RatingSettings> obj = ratingSettingsRepository.findById(1L);
 		if (obj.isPresent()) {
@@ -48,6 +53,7 @@ public class RatingSettingsService {
 			obj.get().setMsg(request.getMsg());
 
 			ratingSettingsRepository.save(obj.get());
+			pusher.trigger("settings", "settings-updated", Collections.singletonMap("message", "Settings updated"));
 			return true;
 		} else {
 			return false;
