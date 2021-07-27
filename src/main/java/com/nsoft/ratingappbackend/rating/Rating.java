@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,6 +52,7 @@ public class Rating {
 	 * Column date is the date when the emoji was saved
 	 */
 	@Column(name = "date")
+	@NotNull
 	private Instant date;
 
 	public Rating(Emoji emojiId, Instant date) {
