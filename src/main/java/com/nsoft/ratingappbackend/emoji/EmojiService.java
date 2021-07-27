@@ -1,5 +1,6 @@
 package com.nsoft.ratingappbackend.emoji;
 
+import com.nsoft.ratingappbackend.emoji.payload.EmojiResponse;
 import com.nsoft.ratingappbackend.emojiconfig.EmojiConfig;
 import com.nsoft.ratingappbackend.emojiconfig.EmojiConfigService;
 import java.util.ArrayList;
@@ -22,18 +23,22 @@ public class EmojiService {
 	 *
 	 * @return List
 	 */
-	public List<Emoji> getEmojis() {
+	public EmojiResponse getEmojis() {
 
 		List<EmojiConfig> emojiConfigList = emojiConfigService.getEmojisConfig();
+		EmojiResponse emojiResponse = new EmojiResponse();
 
 		if (!emojiConfigList.isEmpty()) {
 			List<Long> emojiIDs = new ArrayList<>();
 			for (EmojiConfig ec : emojiConfigList) {
 				emojiIDs.add(ec.getEmojiId().getId());
 			}
-			return emojiRepository.findAllByIdIn(emojiIDs);
+			emojiResponse.setMessage("Emojis found.");
+			emojiResponse.setEmojiList(emojiRepository.findAllByIdIn(emojiIDs));
+			return emojiResponse;
 		}
 
-		return new ArrayList<>();
+		emojiResponse.setMessage("No emojis found.");
+		return emojiResponse;
 	}
 }

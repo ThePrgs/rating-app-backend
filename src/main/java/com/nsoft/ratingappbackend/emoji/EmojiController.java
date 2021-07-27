@@ -1,6 +1,6 @@
 package com.nsoft.ratingappbackend.emoji;
 
-import java.util.List;
+import com.nsoft.ratingappbackend.emoji.payload.EmojiResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,17 +26,19 @@ public class EmojiController {
 	 * @return ResponseEntity
 	 */
 	@GetMapping
-	public ResponseEntity<List<Emoji>> getEmojis() {
+	public ResponseEntity<EmojiResponse> getEmojis() {
+		EmojiResponse response = new EmojiResponse();
 		try {
-			List<Emoji> list = emojiService.getEmojis();
+			response = emojiService.getEmojis();
 
-			if (!list.isEmpty()) {
-				return new ResponseEntity<>(list, HttpStatus.OK);
+			if (!response.getEmojiList().isEmpty()) {
+				return new ResponseEntity<>(response, HttpStatus.OK);
 			} else {
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			response.setMessage("An error has occurred.");
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
 }
