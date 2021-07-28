@@ -17,6 +17,11 @@ After everything has started you have your application running on http://localho
 * username: root
 * password: password123
 
+> **_NOTE:_**  If you're running Docker on Windows, you should add following commands in our `Dockerfile` 
+> (above command `RUN ./mvnw install -DskipTests`) to avoid CRLF/LF annoyances:
+> * `RUN apt-get update && apt-get install dos2unix` 
+> * `RUN dos2unix mvnw`
+
 ## Emoji
 Emoji entity is defined as a rating category in itself. We use it for evaluation of our app through ratings. In our current setup, we store five different emojis (`VERY_HAPPY`, `HAPPY`, `MEH`, `SAD` and `VERY_SAD`). Besides that, Emoji also provide color and image values to our frontend.
 
@@ -39,8 +44,12 @@ Rating is connected to Emoji entity with `@ManyToOne` relationship. This helps u
 
 * Rating controller
 
-Controller contains API endpoints for posting a rating, retrieving current rating settings and updating rating settings.
+Controller contains API endpoints for posting a rating, retrieving current rating settings, updating rating settings and retrieving ratings between two dates.
 
 ## Authorization
+
+* Our application has two roles: `USER` and `ADMIN`. 
+* For user authentication we use Google OAuth 2.0 (on our SPA). 
+* Session management is set to `STATELESS` (we're using Google Access Token to retrieve protected resources).
 
 

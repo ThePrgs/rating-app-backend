@@ -86,7 +86,7 @@ public class RatingService {
 		LocalDateTime localDateTime = LocalDateTime.now();
 		LocalDateTime morningDateTime = LocalDateTime.now();
 		morningDateTime=morningDateTime.minusHours(localDateTime.getHour()).minusMinutes(localDateTime.getMinute()).minusSeconds(localDateTime.getSecond());
-		List<Rating> list= ratingRepository.findAllByDateBetween(morningDateTime.toInstant(ZoneOffset.ofHours(-2)),localDateTime.toInstant(ZoneOffset.ofHours(-2)));
+		List<Rating> list= ratingRepository.findAllByDateBetween(morningDateTime.toInstant(ZoneOffset.UTC),localDateTime.toInstant(ZoneOffset.UTC));
 
 		if((long) list.size() <10) {
 			URL url = new URL(
