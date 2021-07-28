@@ -39,8 +39,12 @@ Rating is connected to Emoji entity with `@ManyToOne` relationship. This helps u
 
 * Rating controller
 
-Controller contains API endpoints for posting a rating, retrieving current rating settings and updating rating settings.
+Controller contains API endpoints for posting a rating, retrieving current rating settings, updating rating settings and retrieving ratings between two dates.
 
 ## Authorization
+
+* Our application has two roles: `USER` and `ADMIN`. 
+* For user authentication we use Google OAuth 2.0 (on our SPA). 
+* Session management is set to `STATELESS` (we're using Google Access Token to retrieve protected resources).
 
 
