@@ -60,12 +60,12 @@ public class RatingService {
 		RatingsBetweenDatesResponse response = new RatingsBetweenDatesResponse();
 		try {
 
-			List<Rating> ratingsBetweenDates =  ratingRepository.findAllByDateBetween(request.getFirstDate(), request.getEndDate());
+			List<Rating> ratingsBetweenDates =  ratingRepository.findAllByDateBetween(request.getStartDate(), request.getEndDate());
 			if(!ratingsBetweenDates.isEmpty()) {
-				response.setMessage("All ratings between " + request.getFirstDate() + " and " + request.getEndDate());
+				response.setMessage("All ratings between " + request.getStartDate() + " and " + request.getEndDate());
 				response.setRatings(ratingsBetweenDates);
 			} else {
-				response.setMessage("No ratings found between " + request.getFirstDate() + " and " + request.getEndDate() + ".");
+				response.setMessage("No ratings found between " + request.getStartDate() + " and " + request.getEndDate() + ".");
 			}
 		} catch (IllegalArgumentException e) {
 			throw new IllegalArgumentException();

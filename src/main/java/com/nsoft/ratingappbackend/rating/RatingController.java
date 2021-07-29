@@ -105,7 +105,7 @@ public class RatingController {
 		@Valid @RequestBody RatingsBetweenDatesRequest request) {
 		RatingsBetweenDatesResponse response = new RatingsBetweenDatesResponse();
 		try {
-			if (ratingService.areDatesValid(request.getFirstDate(), request.getEndDate())) {
+			if (ratingService.areDatesValid(request.getStartDate(), request.getEndDate())) {
 				// if difference between requested dates is 30 days
 				response = ratingService.getRatingsBetweenDates(request);
 				return new ResponseEntity<>(response, HttpStatus.OK);

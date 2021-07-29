@@ -14,7 +14,7 @@ import java.time.Instant;
 public class RatingsBetweenDatesRequest {
 
 	@NotNull
-	private Instant firstDate;
+	private Instant startDate;
 	@NotNull
 	private Instant endDate;
 }

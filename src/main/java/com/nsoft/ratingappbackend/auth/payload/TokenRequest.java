@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @AllArgsConstructor
@@ -11,5 +12,6 @@ import lombok.ToString;
 @ToString
 public class TokenRequest {
 
+	@NotNull
 	private String accessToken;
 }

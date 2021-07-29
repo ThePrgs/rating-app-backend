@@ -40,7 +40,6 @@ public class AppUserService implements UserDetailsService {
 
 
 	public JsonObject validateAccessToken(String token) throws IOException {
-		try {
 			URL url = new URL(
 				"https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + token);
 			HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
@@ -51,10 +50,6 @@ public class AppUserService implements UserDetailsService {
 			JsonObject json = JsonParser.parseReader(in).getAsJsonObject();
 			in.close();
 			return json;
-		} catch (Exception e) {
-			return new JsonObject();
-		}
-
 	}
 
 	@SneakyThrows
