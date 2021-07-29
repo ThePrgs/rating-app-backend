@@ -17,11 +17,6 @@ After everything has started you have your application running on http://localho
 * username: root
 * password: password123
 
-> **_NOTE:_**  If you're running Docker on Windows, you should add following commands in our `Dockerfile` 
-> (above command `RUN ./mvnw install -DskipTests`) to avoid CRLF/LF annoyances:
-> * `RUN apt-get update && apt-get install dos2unix` 
-> * `RUN dos2unix mvnw`
-
 ## Emoji
 Emoji entity is defined as a rating category in itself. We use it for evaluation of our app through ratings. In our current setup, we store five different emojis (`VERY_HAPPY`, `HAPPY`, `MEH`, `SAD` and `VERY_SAD`). Besides that, Emoji also provide color and image values to our frontend.
 
