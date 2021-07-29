@@ -82,7 +82,7 @@ public class RatingController {
 	 * @return ResponseEntity
 	 */
 	@PostMapping
-	public ResponseEntity<RatingResponse> createRating(@RequestBody RatingRequest request) {
+	public ResponseEntity<RatingResponse> createRating(@Valid @RequestBody RatingRequest request) {
 			RatingResponse response = new RatingResponse();
 		try {
 			response = ratingService.createRating(request);
@@ -91,9 +91,6 @@ public class RatingController {
 			} else {
 				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 			}
-		} catch (NullPointerException e) {
-			response.setMessage(HttpStatus.BAD_REQUEST.toString());
-			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			response.setMessage(HttpStatus.BAD_REQUEST.toString());
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
