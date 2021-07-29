@@ -40,16 +40,16 @@ public class AppUserService implements UserDetailsService {
 
 
 	public JsonObject validateAccessToken(String token) throws IOException {
-			URL url = new URL(
-				"https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + token);
-			HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
-			con.setRequestMethod("GET");
+		URL url = new URL(
+			"https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + token);
+		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+		con.setRequestMethod("GET");
 
-			BufferedReader in = new BufferedReader(
-				new InputStreamReader(con.getInputStream()));
-			JsonObject json = JsonParser.parseReader(in).getAsJsonObject();
-			in.close();
-			return json;
+		BufferedReader in = new BufferedReader(
+			new InputStreamReader(con.getInputStream()));
+		JsonObject json = JsonParser.parseReader(in).getAsJsonObject();
+		in.close();
+		return json;
 	}
 
 	@SneakyThrows
