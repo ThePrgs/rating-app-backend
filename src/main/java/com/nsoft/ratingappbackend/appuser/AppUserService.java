@@ -41,7 +41,7 @@ public class AppUserService implements UserDetailsService {
 
 	public JsonObject validateAccessToken(String token) throws IOException {
 		URL url = new URL(
-			"https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + token);
+			"https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=" + token);
 		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
 
@@ -65,13 +65,7 @@ public class AppUserService implements UserDetailsService {
 			response.setRole(userRole);
 			return response;
 		} else {
-			AppUser newUser = new AppUser(
-				mail,
-				AppUserRole.USER
-			);
-			appUserRepository.save(newUser);
-			response.setRole(AppUserRole.USER);
-			response.setStatus("200 OK");
+			response.setStatus("401 UNAUTHORIZED");
 			return response;
 		}
 	}
