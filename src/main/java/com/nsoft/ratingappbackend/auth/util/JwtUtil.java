@@ -31,11 +31,7 @@ public class JwtUtil {
 			String mail = json.get("email").getAsString();
 			Optional<AppUser> user = appUserRepository.findByEmail(mail);
 
-			if (user.isPresent()) {
-				return true;
-			} else {
-				return false;
-			}
+			return user.isPresent();
 		} catch (Exception e) {
 			return false;
 		}
