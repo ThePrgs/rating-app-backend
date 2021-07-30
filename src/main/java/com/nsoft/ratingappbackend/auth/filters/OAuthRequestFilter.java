@@ -1,7 +1,6 @@
 package com.nsoft.ratingappbackend.auth.filters;
 
 import com.google.gson.JsonObject;
-import com.nsoft.ratingappbackend.appuser.AppUserRepository;
 import com.nsoft.ratingappbackend.appuser.AppUserService;
 import com.nsoft.ratingappbackend.auth.util.JwtUtil;
 import java.io.IOException;
@@ -20,6 +19,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 
+/**
+ * Filter for the OAuth verification
+ */
 @AllArgsConstructor
 @Component
 @Configuration
@@ -27,8 +29,15 @@ public class OAuthRequestFilter extends OncePerRequestFilter {
 
 	private final AppUserService appUserService;
 	private final JwtUtil jwtUtil;
-	private final AppUserRepository appUserRepository;
 
+	/**
+	 * @param request http request
+	 * @param response http response
+	 * @param filterChain filter chain
+	 * @throws ServletException if servlet encounters difficulty
+	 * @throws IOException if the access token is invalid
+	 * @throws NullPointerException if there are illegal usages of the null object
+	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest request,
 		HttpServletResponse response,
@@ -69,7 +78,7 @@ public class OAuthRequestFilter extends OncePerRequestFilter {
 						.setAuthentication(usernamePasswordAuthenticationToken);
 				}
 			} catch (UsernameNotFoundException e) {
-				System.out.println(e);
+				logger.error(e);
 			}
 
 		}

@@ -18,7 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- * Service class for AppUser
+ * A service class for AppUser
  */
 @Service
 @AllArgsConstructor
@@ -27,6 +27,12 @@ public class AppUserService implements UserDetailsService {
 	private static final String USER_NOT_FOUND_MSG = "User with that email not found";
 	private final AppUserRepository appUserRepository;
 
+
+	/**
+	 * @param email email to be checked against the database
+	 * @return UserDetails of the user
+	 * @throws UsernameNotFoundException if the email is not found
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		return appUserRepository
@@ -39,6 +45,11 @@ public class AppUserService implements UserDetailsService {
 	}
 
 
+	/**
+	 * @param token Google access token to be verified.
+	 * @return JsonObject which contains user data if token's integrity is valid.
+	 * @throws IOException if the token is invalid.
+	 */
 	public JsonObject validateAccessToken(String token) throws IOException {
 		URL url = new URL(
 			"https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=" + token);
@@ -52,6 +63,11 @@ public class AppUserService implements UserDetailsService {
 		return json;
 	}
 
+	/**
+	 * @param request contains Google access token
+	 * @return 200 OK if the user is in the database, or 401 UNAUTHORIZED if he is not.
+	 * @throws IOException if the token is invalid.
+	 */
 	@SneakyThrows
 	public RoleResponse singIn(TokenRequest request) throws IOException {
 		JsonObject json = validateAccessToken(request.getAccessToken());

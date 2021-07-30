@@ -56,6 +56,10 @@ public class RatingService {
 		return response;
 	}
 
+	/**
+	 * @param request request made to get all the ratings between two dates
+	 * @return a list of ratings between two dates
+	 */
 	public RatingsBetweenDatesResponse getRatingsBetweenDates(RatingsBetweenDatesRequest request) {
 		RatingsBetweenDatesResponse response = new RatingsBetweenDatesResponse();
 		try {
@@ -73,12 +77,20 @@ public class RatingService {
 		return response;
 	}
 
+	/**
+	 * @param firstDate first date of the request
+	 * @param lastDate last date of the request
+	 * @return a boolean - true if the first date is before last and difference between is no more than 30 days; false otherwise
+	 */
 	public boolean areDatesValid(Instant firstDate, Instant lastDate) {
 
 		// is first date before the second, and is difference between dates <= than 30 days
 		return firstDate.isBefore(lastDate) && (firstDate.until(lastDate, ChronoUnit.DAYS) <= 30);
 	}
 
+	/**
+	 * Send daily rating reports to Slack if there was less than 10 ratings
+	 */
 	@Scheduled(cron = "0 59 23 * * MON-SUN")
 	@SneakyThrows
 	public void sendSlackReport(){

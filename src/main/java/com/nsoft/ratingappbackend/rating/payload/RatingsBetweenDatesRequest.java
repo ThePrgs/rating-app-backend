@@ -7,6 +7,9 @@ import lombok.ToString;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
+/**
+ * Request for all ratings between two dates. Difference between dates can't be more than 30 days.
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

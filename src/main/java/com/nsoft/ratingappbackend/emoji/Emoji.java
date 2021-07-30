@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Emoji entity class is a class for rating classification
+ * Emoji entity class is used for rating classification
  */
 @Entity
 @NoArgsConstructor

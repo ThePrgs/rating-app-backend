@@ -97,6 +97,10 @@ public class RatingController {
 		}
 	}
 
+	/**
+	 * @param request contains two dates
+	 * @return a RatingBetweenDatesResponse with all the rating between two dates
+	 */
 	@PostMapping("/statistics")
 	public ResponseEntity<RatingsBetweenDatesResponse> getRatingsBetweenDates(
 		@Valid @RequestBody RatingsBetweenDatesRequest request) {

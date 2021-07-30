@@ -9,6 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Client receives this payload after the access token integrity check.
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

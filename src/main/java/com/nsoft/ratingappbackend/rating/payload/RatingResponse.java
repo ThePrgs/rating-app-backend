@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Client receives a RatingResponse after creating a rating
+ */
 @Getter
 @Setter
 @NoArgsConstructor

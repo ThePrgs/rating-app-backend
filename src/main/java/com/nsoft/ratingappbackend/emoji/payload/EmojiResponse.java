@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.List;
 
+/**
+ * Client receives payload with list of emojis that are currently in use
+ * @see com.nsoft.ratingappbackend.emojiconfig.EmojiConfig
+ */
 @Getter
 @Setter
 @NoArgsConstructor

@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Client sends this payload to check access token integrity.
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

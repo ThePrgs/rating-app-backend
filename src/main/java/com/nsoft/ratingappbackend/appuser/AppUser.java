@@ -33,6 +33,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "app_user")
 public class AppUser implements UserDetails {
 
+	/**
+	 * AppUser identification field
+	 */
 	@SequenceGenerator(
 		name = "app_user_sequence",
 		sequenceName = "app_user_sequence",
@@ -42,11 +45,17 @@ public class AppUser implements UserDetails {
 	@Column(name = "id")
 	private Long id;
 
+	/**
+	 * AppUser's unique email field
+	 */
 	@Email
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 
 
+	/**
+	 * AppUser's role field
+	 */
 	@Column(name = "app_user_role")
 	@Enumerated(EnumType.STRING)
 	private AppUserRole appUserRole;

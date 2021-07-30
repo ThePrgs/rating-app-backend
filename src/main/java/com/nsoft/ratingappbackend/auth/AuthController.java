@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.io.IOException;
 
+/**
+ * AuthController - a simple authorization rest controller
+ */
 @RestController
 @AllArgsConstructor
 @CrossOrigin
@@ -22,6 +25,10 @@ public class AuthController {
 
 	private final AppUserService appUserService;
 
+	/**
+	 * @param request request that contains Google access token
+	 * @return RoleResponse with http status code and user role
+	 */
 	@PostMapping
 	public ResponseEntity<RoleResponse> authenticate(@Valid @RequestBody TokenRequest request) {
 		RoleResponse response = new RoleResponse();
