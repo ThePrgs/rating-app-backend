@@ -3,7 +3,20 @@
 This repository contains a Spring Boot application. Its main purpose is to collect simple ratings based on user experience and provide ratings for
 statistics that can be displayed in a chronological manner. 
 
-We used MariaDB to store our data.
+We use the following technologies:
+
+* Java 11
+* Maven 
+* MariaDB with phpMyAdmin as its administration tool
+* Docker
+* Spring Boot
+* Spring Security
+* Spring Data JPA with Hibernate as its default implementation
+* Java Validation API
+* Lombok
+* Flyway
+* Swagger 
+* Pusher
 
 ## Prerequisites and getting started
 In order to run the application you need to have Docker and docker-compose installed on your machine.
@@ -12,36 +25,36 @@ When you have docker up and running you need to execute the following step on th
 
 * docker-compose up -d
 
-After everything has started you have your application running on http://localhost:8080/ and phpMyAdmin on http://localhost:8000/. You can access the database 
+After everything has started you have your application running on http://localhost:8081/ and phpMyAdmin on http://localhost:8000/. You can access the database 
 "rating_app" with the following credentials:
 * username: root
 * password: password123
 
-## Emoji
+### Emoji
 Emoji entity is defined as a rating category in itself. We use it for evaluation of our app through ratings. In our current setup, we store five different emojis (`VERY_HAPPY`, `HAPPY`, `MEH`, `SAD` and `VERY_SAD`). Besides that, Emoji also provide color and image values to our frontend.
 
 * Emoji controller
 
-Controller contains only one API endpoint that returns a list of emojis that are currently in use based on our [rating settings](##-rating-settings)
+Controller contains only one API endpoint that returns a list of emojis that are currently in use based on our rating settings.
 
-## Rating settings
+### Rating settings
 Rating settings is instrumental for setting our basic rating features. With this setting we can set a number of displayed emojis (3-5), our feedback message (3-120 chars) and a timeout after which our message is shown (0-10s). 
 
-## Emoji config
+### Emoji config
 With emoji config we define all possible variations of our rating settings. 
 
 Example:
 
 * Emoji config can define that rating setting with number of emojis set to 3 contains following emojis: `VERY_HAPPY`, `MEH`, and `VERY_SAD`.
 
-## Rating
+### Rating
 Rating is connected to Emoji entity with `@ManyToOne` relationship. This helps us to store data that contains an emoji (describes user experience) and a timestamp (current datetime of a rating). 
 
 * Rating controller
 
 Controller contains API endpoints for posting a rating, retrieving current rating settings, updating rating settings and retrieving ratings between two dates.
 
-## Authorization
+### Authorization
 
 * Our application has two roles: `USER` and `ADMIN`. 
 * For user authentication we use Google OAuth 2.0 (on our SPA). 
