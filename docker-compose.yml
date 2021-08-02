@@ -5,7 +5,7 @@ services:
     container_name: maria_db
     restart: always
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - "./src/main/resources/init:/docker-entrypoint-initdb.d"
       - "./src/main/resources/db/migration:/docker-entrypoint-migration.d"
@@ -17,14 +17,14 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - 8080:8080
+      - "8081:8081"
     depends_on:
       - maria_db
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     container_name: pma
     ports:
-      - 8000:80
+      - "8000:80"
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=maria_db
