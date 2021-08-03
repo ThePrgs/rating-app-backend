@@ -31,11 +31,11 @@ public class OAuthRequestFilter extends OncePerRequestFilter {
 	private final JwtUtil jwtUtil;
 
 	/**
-	 * @param request http request
-	 * @param response http response
+	 * @param request     http request
+	 * @param response    http response
 	 * @param filterChain filter chain
-	 * @throws ServletException if servlet encounters difficulty
-	 * @throws IOException if the access token is invalid
+	 * @throws ServletException     if servlet encounters difficulty
+	 * @throws IOException          if the access token is invalid
 	 * @throws NullPointerException if there are illegal usages of the null object
 	 */
 	@Override

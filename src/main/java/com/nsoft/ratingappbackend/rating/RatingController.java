@@ -4,9 +4,9 @@ import com.nsoft.ratingappbackend.rating.payload.RatingRequest;
 import com.nsoft.ratingappbackend.rating.payload.RatingResponse;
 import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesRequest;
 import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesResponse;
+import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsService;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsRequest;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsResponse;
-import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsService;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,7 +42,7 @@ public class RatingController {
 		RatingSettingsResponse response = new RatingSettingsResponse();
 		try {
 			response = ratingSettingsService.getRatingSettings();
-			if(response.getRatingSettings() != null) {
+			if (response.getRatingSettings() != null) {
 
 				return new ResponseEntity<>(response, HttpStatus.OK);
 			} else {
@@ -83,10 +83,10 @@ public class RatingController {
 	 */
 	@PostMapping
 	public ResponseEntity<RatingResponse> createRating(@Valid @RequestBody RatingRequest request) {
-			RatingResponse response = new RatingResponse();
+		RatingResponse response = new RatingResponse();
 		try {
 			response = ratingService.createRating(request);
-			if(response.getRating() != null) {
+			if (response.getRating() != null) {
 				return new ResponseEntity<>(response, HttpStatus.CREATED);
 			} else {
 				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -111,7 +111,8 @@ public class RatingController {
 				response = ratingService.getRatingsBetweenDates(request);
 				return new ResponseEntity<>(response, HttpStatus.OK);
 			} else {
-				response.setMessage(HttpStatus.BAD_REQUEST + "! Difference between dates might be more than 30 days!");
+				response.setMessage(HttpStatus.BAD_REQUEST
+					+ "! Difference between dates might be more than 30 days!");
 				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 			}
 		} catch (IllegalArgumentException e) {

@@ -1,9 +1,9 @@
 package com.nsoft.ratingappbackend.ratingsettings;
 
-import com.pusher.rest.Pusher;
-import java.util.Optional;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsRequest;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsResponse;
+import com.pusher.rest.Pusher;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,15 +25,15 @@ public class RatingSettingsService {
 
 		Optional<RatingSettings> ratingSettings = ratingSettingsRepository.findById(1L);
 		RatingSettingsResponse ratingSettingsResponse = new RatingSettingsResponse();
-		if(ratingSettings.isPresent()) {
+		if (ratingSettings.isPresent()) {
 
 			ratingSettingsResponse.setMessage("Rating settings found.");
 			ratingSettingsResponse.setRatingSettings(
 				new RatingSettings(
-				ratingSettings.get().getNumOfEmoticons(),
-				ratingSettings.get().getTimeout(),
-				ratingSettings.get().getMsg()
-			));
+					ratingSettings.get().getNumOfEmoticons(),
+					ratingSettings.get().getTimeout(),
+					ratingSettings.get().getMsg()
+				));
 			return ratingSettingsResponse;
 		} else {
 			ratingSettingsResponse.setMessage("No rating settings found.");

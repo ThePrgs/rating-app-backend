@@ -1,10 +1,10 @@
 package com.nsoft.ratingappbackend.rating.payload;
 
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import javax.validation.constraints.NotNull;
 
 /**
  * RatingRequest contains emojiId

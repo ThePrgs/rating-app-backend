@@ -54,7 +54,7 @@ public class RatingSettings {
 	@Column(name = "msg", columnDefinition = "varchar(255) default 'Thank you for rating.'")
 	private String msg = "Thank you for your rating";
 
-	public RatingSettings(Integer numOfEmoticons, Integer timeout, String msg){
+	public RatingSettings(Integer numOfEmoticons, Integer timeout, String msg) {
 		this.numOfEmoticons = numOfEmoticons;
 		this.timeout = timeout;
 		this.msg = msg;

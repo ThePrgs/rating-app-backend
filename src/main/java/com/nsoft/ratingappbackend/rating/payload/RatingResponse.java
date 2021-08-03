@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class RatingResponse {
+
 	private String message;
 	private Rating rating;
 }

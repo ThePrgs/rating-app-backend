@@ -1,11 +1,11 @@
 package com.nsoft.ratingappbackend.rating.payload;
 
+import java.time.Instant;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import javax.validation.constraints.NotNull;
-import java.time.Instant;
 
 /**
  * Request for all ratings between two dates. Difference between dates can't be more than 30 days.

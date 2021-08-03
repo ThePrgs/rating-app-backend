@@ -1,10 +1,10 @@
 package com.nsoft.ratingappbackend.auth.payload;
 
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import javax.validation.constraints.NotNull;
 
 /**
  * Client sends this payload to check access token integrity.

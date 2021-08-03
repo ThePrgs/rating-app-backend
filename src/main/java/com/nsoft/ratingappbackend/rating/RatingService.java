@@ -2,6 +2,10 @@ package com.nsoft.ratingappbackend.rating;
 
 import com.nsoft.ratingappbackend.emoji.Emoji;
 import com.nsoft.ratingappbackend.emoji.EmojiRepository;
+import com.nsoft.ratingappbackend.rating.payload.RatingRequest;
+import com.nsoft.ratingappbackend.rating.payload.RatingResponse;
+import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesRequest;
+import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesResponse;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -14,10 +18,6 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
-import com.nsoft.ratingappbackend.rating.payload.RatingRequest;
-import com.nsoft.ratingappbackend.rating.payload.RatingResponse;
-import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesRequest;
-import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesResponse;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -64,12 +64,15 @@ public class RatingService {
 		RatingsBetweenDatesResponse response = new RatingsBetweenDatesResponse();
 		try {
 
-			List<Rating> ratingsBetweenDates =  ratingRepository.findAllByDateBetween(request.getStartDate(), request.getEndDate());
-			if(!ratingsBetweenDates.isEmpty()) {
-				response.setMessage("All ratings between " + request.getStartDate() + " and " + request.getEndDate());
+			List<Rating> ratingsBetweenDates = ratingRepository.findAllByDateBetween(
+				request.getStartDate(), request.getEndDate());
+			if (!ratingsBetweenDates.isEmpty()) {
+				response.setMessage("All ratings between " + request.getStartDate() + " and "
+					+ request.getEndDate());
 				response.setRatings(ratingsBetweenDates);
 			} else {
-				response.setMessage("No ratings found between " + request.getStartDate() + " and " + request.getEndDate() + ".");
+				response.setMessage("No ratings found between " + request.getStartDate() + " and "
+					+ request.getEndDate() + ".");
 			}
 		} catch (IllegalArgumentException e) {
 			throw new IllegalArgumentException();
@@ -79,8 +82,9 @@ public class RatingService {
 
 	/**
 	 * @param firstDate first date of the request
-	 * @param lastDate last date of the request
-	 * @return a boolean - true if the first date is before last and difference between is no more than 30 days; false otherwise
+	 * @param lastDate  last date of the request
+	 * @return a boolean - true if the first date is before last and difference between is no more
+	 * than 30 days; false otherwise
 	 */
 	public boolean areDatesValid(Instant firstDate, Instant lastDate) {
 
@@ -93,14 +97,16 @@ public class RatingService {
 	 */
 	@Scheduled(cron = "0 59 23 * * MON-SUN")
 	@SneakyThrows
-	public void sendSlackReport(){
+	public void sendSlackReport() {
 
 		LocalDateTime localDateTime = LocalDateTime.now();
 		LocalDateTime morningDateTime = LocalDateTime.now();
-		morningDateTime=morningDateTime.minusHours(localDateTime.getHour()).minusMinutes(localDateTime.getMinute()).minusSeconds(localDateTime.getSecond());
-		List<Rating> list= ratingRepository.findAllByDateBetween(morningDateTime.toInstant(ZoneOffset.UTC),localDateTime.toInstant(ZoneOffset.UTC));
+		morningDateTime = morningDateTime.minusHours(localDateTime.getHour())
+			.minusMinutes(localDateTime.getMinute()).minusSeconds(localDateTime.getSecond());
+		List<Rating> list = ratingRepository.findAllByDateBetween(
+			morningDateTime.toInstant(ZoneOffset.UTC), localDateTime.toInstant(ZoneOffset.UTC));
 
-		if((long) list.size() <10) {
+		if ((long) list.size() < 10) {
 			URL url = new URL(
 				"https://hooks.slack.com/services/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");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
