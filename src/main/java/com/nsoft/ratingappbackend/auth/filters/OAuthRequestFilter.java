@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -41,29 +42,36 @@ public class OAuthRequestFilter extends OncePerRequestFilter {
 
 		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 			token = authorizationHeader.substring(7);
-			JsonObject json = appUserService.validateAccessToken(token);
 			try {
+				JsonObject json = appUserService.validateAccessToken(token);
 				email = json.get("email").getAsString();
 			} catch (RuntimeException e) {
+				response.setStatus(401);
+			} catch (IOException e) {
 				response.setStatus(401);
 			}
 		}
 
 		if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-			UserDetails user = appUserService.loadUserByUsername(email);
+			try {
+				UserDetails user = appUserService.loadUserByUsername(email);
 
-			if (jwtUtil.validateToken(token)) {
-				var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-					user,
-					null,
-					user.getAuthorities()
-				);
+				if (jwtUtil.validateToken(token)) {
+					var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+						user,
+						null,
+						user.getAuthorities()
+					);
 
-				usernamePasswordAuthenticationToken
-					.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-				SecurityContextHolder.getContext()
-					.setAuthentication(usernamePasswordAuthenticationToken);
+					usernamePasswordAuthenticationToken
+						.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+					SecurityContextHolder.getContext()
+						.setAuthentication(usernamePasswordAuthenticationToken);
+				}
+			} catch (UsernameNotFoundException e) {
+				System.out.println(e);
 			}
+
 		}
 		filterChain.doFilter(request, response);
 	}

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import javax.validation.constraints.NotNull;
 
 /**
  * RatingRequest contains emojiId
@@ -14,5 +15,6 @@ import lombok.ToString;
 @ToString
 public class RatingRequest {
 
+	@NotNull
 	private Long emojiId;
 }

@@ -82,7 +82,7 @@ public class RatingController {
 	 * @return ResponseEntity
 	 */
 	@PostMapping
-	public ResponseEntity<RatingResponse> createRating(@RequestBody RatingRequest request) {
+	public ResponseEntity<RatingResponse> createRating(@Valid @RequestBody RatingRequest request) {
 			RatingResponse response = new RatingResponse();
 		try {
 			response = ratingService.createRating(request);
@@ -91,9 +91,6 @@ public class RatingController {
 			} else {
 				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 			}
-		} catch (NullPointerException e) {
-			response.setMessage(HttpStatus.BAD_REQUEST.toString());
-			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			response.setMessage(HttpStatus.BAD_REQUEST.toString());
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -105,7 +102,7 @@ public class RatingController {
 		@Valid @RequestBody RatingsBetweenDatesRequest request) {
 		RatingsBetweenDatesResponse response = new RatingsBetweenDatesResponse();
 		try {
-			if (ratingService.areDatesValid(request.getFirstDate(), request.getEndDate())) {
+			if (ratingService.areDatesValid(request.getStartDate(), request.getEndDate())) {
 				// if difference between requested dates is 30 days
 				response = ratingService.getRatingsBetweenDates(request);
 				return new ResponseEntity<>(response, HttpStatus.OK);

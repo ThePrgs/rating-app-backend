@@ -1,8 +1,6 @@
 package com.nsoft.ratingappbackend.ratingsettings;
 
 import com.pusher.rest.Pusher;
-import java.util.Collections;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsRequest;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsResponse;
@@ -62,7 +60,7 @@ public class RatingSettingsService {
 			obj.get().setMsg(request.getMsg());
 
 			ratingSettingsRepository.save(obj.get());
-			pusher.trigger("settings", "settings-updated", Collections.singletonMap("message", "Settings updated"));
+			pusher.trigger("settings", "settings-updated", obj);
 			return true;
 		} else {
 			return false;

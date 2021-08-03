@@ -60,12 +60,12 @@ public class RatingService {
 		RatingsBetweenDatesResponse response = new RatingsBetweenDatesResponse();
 		try {
 
-			List<Rating> ratingsBetweenDates =  ratingRepository.findAllByDateBetween(request.getFirstDate(), request.getEndDate());
+			List<Rating> ratingsBetweenDates =  ratingRepository.findAllByDateBetween(request.getStartDate(), request.getEndDate());
 			if(!ratingsBetweenDates.isEmpty()) {
-				response.setMessage("All ratings between " + request.getFirstDate() + " and " + request.getEndDate());
+				response.setMessage("All ratings between " + request.getStartDate() + " and " + request.getEndDate());
 				response.setRatings(ratingsBetweenDates);
 			} else {
-				response.setMessage("No ratings found between " + request.getFirstDate() + " and " + request.getEndDate() + ".");
+				response.setMessage("No ratings found between " + request.getStartDate() + " and " + request.getEndDate() + ".");
 			}
 		} catch (IllegalArgumentException e) {
 			throw new IllegalArgumentException();
@@ -86,7 +86,7 @@ public class RatingService {
 		LocalDateTime localDateTime = LocalDateTime.now();
 		LocalDateTime morningDateTime = LocalDateTime.now();
 		morningDateTime=morningDateTime.minusHours(localDateTime.getHour()).minusMinutes(localDateTime.getMinute()).minusSeconds(localDateTime.getSecond());
-		List<Rating> list= ratingRepository.findAllByDateBetween(morningDateTime.toInstant(ZoneOffset.ofHours(-2)),localDateTime.toInstant(ZoneOffset.ofHours(-2)));
+		List<Rating> list= ratingRepository.findAllByDateBetween(morningDateTime.toInstant(ZoneOffset.UTC),localDateTime.toInstant(ZoneOffset.UTC));
 
 		if((long) list.size() <10) {
 			URL url = new URL(
