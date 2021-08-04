@@ -20,8 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Rating Controller has the api endpoints for getting settings /api/rating/settings , updating
- * settings /api/rating/settings and adding a rating /api/rating
+ * RatingController - a rest controller for ratings. This controller contains API endpoints used for
+ * creating ratings, settings and more.
+ *
+ * @see Rating
+ * @see com.nsoft.ratingappbackend.ratingsettings.RatingSettings
  */
 @RestController
 @AllArgsConstructor
@@ -33,9 +36,9 @@ public class RatingController {
 	private final RatingSettingsService ratingSettingsService;
 
 	/**
-	 * Method returns settings
+	 * API endpoint - get current rating settings.
 	 *
-	 * @return ResponseEntity
+	 * @return ResponseEntity with a RatingSettingsResponse.
 	 */
 	@GetMapping("/current-settings")
 	public ResponseEntity<RatingSettingsResponse> getRatingSettings() {
@@ -55,10 +58,10 @@ public class RatingController {
 	}
 
 	/**
-	 * Method takes request and changes settings using it
+	 * API endpoint - updates rating settings.
 	 *
-	 * @param request object containing new settings
-	 * @return ResponseEntity
+	 * @param request request containing new settings.
+	 * @return ResponseEntity with a HttpStatus code.
 	 */
 	@PutMapping("/settings")
 	public ResponseEntity<String> updateRatingSettings(
@@ -76,10 +79,10 @@ public class RatingController {
 	}
 
 	/**
-	 * Method takes request containing new rating and sends it to the service
+	 * API endpoint - creates new rating.
 	 *
-	 * @param request object of the rating
-	 * @return ResponseEntity
+	 * @param request object of the rating.
+	 * @return ResponseEntity with RatingResponse and a HttpStatus code.
 	 */
 	@PostMapping
 	public ResponseEntity<RatingResponse> createRating(@Valid @RequestBody RatingRequest request) {
@@ -98,8 +101,10 @@ public class RatingController {
 	}
 
 	/**
-	 * @param request contains two dates
-	 * @return a RatingBetweenDatesResponse with all the rating between two dates
+	 * API endpoint - gets all ratings between two dates.
+	 *
+	 * @param request contains two dates.
+	 * @return a RatingBetweenDatesResponse with all the rating between two dates.
 	 */
 	@PostMapping("/statistics")
 	public ResponseEntity<RatingsBetweenDatesResponse> getRatingsBetweenDates(

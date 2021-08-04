@@ -8,7 +8,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
- * Service class for the settings table
+ * Service class for RatingSettings.
+ *
+ * @see RatingSettings
  */
 @Service
 @AllArgsConstructor
@@ -17,9 +19,9 @@ public class RatingSettingsService {
 	private final RatingSettingsRepository ratingSettingsRepository;
 
 	/**
-	 * Method gets the settings from the repository
+	 * Method gets the current rating settings.
 	 *
-	 * @return RatingSettingResponse
+	 * @return RatingSettingResponse with a message and current rating settings.
 	 */
 	public RatingSettingsResponse getRatingSettings() {
 
@@ -42,10 +44,10 @@ public class RatingSettingsService {
 	}
 
 	/**
-	 * Method updates settings set in the repository
+	 * Method updates rating settings.
 	 *
-	 * @param request request containing new settings
-	 * @return boolean
+	 * @param request request containing new settings.
+	 * @return a boolean value whether the settings were updated or not.
 	 */
 
 	public boolean updateRatingSettings(RatingSettingsRequest request) {

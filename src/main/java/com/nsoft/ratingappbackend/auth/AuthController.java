@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * AuthController - a simple authorization rest controller
+ * AuthController - an authorization rest controller.
  */
 @RestController
 @AllArgsConstructor
@@ -26,6 +26,8 @@ public class AuthController {
 	private final AppUserService appUserService;
 
 	/**
+	 * API endpoint - checks for the access token integrity (whether it is from Google or not).
+	 *
 	 * @param request request that contains Google access token
 	 * @return RoleResponse with http status code and user role
 	 */

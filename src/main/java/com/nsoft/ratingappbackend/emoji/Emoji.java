@@ -9,7 +9,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Emoji entity class is used for rating classification
+ * Emoji class represents an entity. It is used for rating classification. Every possible way
+ * (emojis, stars, etc.) to rate something with, is stored in emoji table.
+ *
+ * @see com.nsoft.ratingappbackend.emojiconfig.EmojiConfig
+ * @see com.nsoft.ratingappbackend.ratingsettings.RatingSettings
  */
 @Entity
 @NoArgsConstructor
@@ -19,26 +23,26 @@ import lombok.Setter;
 public class Emoji {
 
 	/**
-	 * Column id is the primary key of the emoji table
+	 * id is used to identify an emoji. It is unique.
 	 */
 	@Id
 	@Column(name = "id")
 	private Long id;
 
 	/**
-	 * Column name is used for the name of an emoji
+	 * name describes a rating classification (an emoji).
 	 */
 	@Column(name = "name")
 	private String name;
 
 	/**
-	 * Column color is used to set the color of our emoji using RGB mapping
+	 * color is used to set our emoji a color that our SPA will use.
 	 */
 	@Column(name = "color")
 	private String color;
 
 	/**
-	 * Column image is used to show the location of the used image
+	 * image is a remote link of an emoji image.
 	 */
 	@Column(name = "image")
 	private String image;

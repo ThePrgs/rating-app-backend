@@ -14,6 +14,13 @@ import lombok.Setter;
 @Setter
 public class RatingsBetweenDatesResponse {
 
+	/**
+	 * An informative message.
+	 */
 	private String message;
+
+	/**
+	 * A list of ratings.
+	 */
 	private List<Rating> ratings;
 }

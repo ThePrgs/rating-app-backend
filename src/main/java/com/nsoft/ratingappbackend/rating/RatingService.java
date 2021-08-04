@@ -24,7 +24,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 /**
- * Service class for rating
+ * Service class for rating.
+ *
+ * @see Rating
  */
 @Service
 @AllArgsConstructor
@@ -34,10 +36,10 @@ public class RatingService {
 	private final EmojiRepository emojiRepository;
 
 	/**
-	 * Method takes request containing emojiId and creates a rating with that id
+	 * Method takes request containing emojiId and creates a rating with that id.
 	 *
-	 * @param request emojiID
-	 * @return boolean
+	 * @param request request with emoji id.
+	 * @return RatingResponse with a message and newly created rating.
 	 */
 	public RatingResponse createRating(RatingRequest request) {
 		RatingResponse response = new RatingResponse();
@@ -57,8 +59,10 @@ public class RatingService {
 	}
 
 	/**
-	 * @param request request made to get all the ratings between two dates
-	 * @return a list of ratings between two dates
+	 * Method finds all ratings between two dates.
+	 *
+	 * @param request request made to get all the ratings between two dates.
+	 * @return a list of ratings between two dates.
 	 */
 	public RatingsBetweenDatesResponse getRatingsBetweenDates(RatingsBetweenDatesRequest request) {
 		RatingsBetweenDatesResponse response = new RatingsBetweenDatesResponse();
@@ -81,10 +85,12 @@ public class RatingService {
 	}
 
 	/**
-	 * @param firstDate first date of the request
-	 * @param lastDate  last date of the request
+	 * Method checks if the dates are valid.
+	 *
+	 * @param firstDate first date of the request.
+	 * @param lastDate  last date of the request.
 	 * @return a boolean - true if the first date is before last and difference between is no more
-	 * than 30 days; false otherwise
+	 * than 30 days; false otherwise.
 	 */
 	public boolean areDatesValid(Instant firstDate, Instant lastDate) {
 
@@ -93,7 +99,7 @@ public class RatingService {
 	}
 
 	/**
-	 * Send daily rating reports to Slack if there was less than 10 ratings
+	 * Method sends daily rating reports to Slack if there was less than 10 ratings.
 	 */
 	@Scheduled(cron = "0 59 23 * * MON-SUN")
 	@SneakyThrows

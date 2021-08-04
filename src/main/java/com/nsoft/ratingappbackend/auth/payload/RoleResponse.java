@@ -18,8 +18,14 @@ import lombok.Setter;
 @Setter
 public class RoleResponse {
 
+	/**
+	 * Http status code.
+	 */
 	private String status;
 
+	/**
+	 * Role of the authorized user.
+	 */
 	@Enumerated(EnumType.STRING)
 	private AppUserRole role;
 }

@@ -15,6 +15,9 @@ import lombok.ToString;
 @ToString
 public class TokenRequest {
 
+	/**
+	 * Google Access Token.
+	 */
 	@NotNull
 	private String accessToken;
 }

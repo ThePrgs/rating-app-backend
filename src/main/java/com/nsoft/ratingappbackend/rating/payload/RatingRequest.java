@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * RatingRequest contains emojiId
+ * Client sends this request to post a rating.
  */
 @Getter
 @AllArgsConstructor
@@ -15,6 +15,9 @@ import lombok.ToString;
 @ToString
 public class RatingRequest {
 
+	/**
+	 * Id of an emoji.
+	 */
 	@NotNull
 	private Long emojiId;
 }

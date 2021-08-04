@@ -12,7 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * Application security configuration
+ * Security configuration of the application.
  */
 @Configuration
 @EnableWebSecurity

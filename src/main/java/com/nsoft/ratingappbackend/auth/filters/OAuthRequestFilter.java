@@ -20,7 +20,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 
 /**
- * Filter for the OAuth verification
+ * Filter for the OAuth verification.
  */
 @AllArgsConstructor
 @Component
@@ -31,12 +31,15 @@ public class OAuthRequestFilter extends OncePerRequestFilter {
 	private final JwtUtil jwtUtil;
 
 	/**
-	 * @param request     http request
-	 * @param response    http response
-	 * @param filterChain filter chain
-	 * @throws ServletException     if servlet encounters difficulty
-	 * @throws IOException          if the access token is invalid
-	 * @throws NullPointerException if there are illegal usages of the null object
+	 * Method filters all requests. If the resource is protected, it checks for the Google access
+	 * token validity.
+	 *
+	 * @param request     http request.
+	 * @param response    http response.
+	 * @param filterChain filter chain.
+	 * @throws ServletException     if servlet encounters difficulty.
+	 * @throws IOException          if the access token is invalid.
+	 * @throws NullPointerException if there are illegal usages of the null object.
 	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest request,

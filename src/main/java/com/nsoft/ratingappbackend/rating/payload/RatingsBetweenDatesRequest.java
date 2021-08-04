@@ -16,8 +16,15 @@ import lombok.ToString;
 @ToString
 public class RatingsBetweenDatesRequest {
 
+	/**
+	 * Starting point in time.
+	 */
 	@NotNull
 	private Instant startDate;
+
+	/**
+	 * Ending point in time.
+	 */
 	@NotNull
 	private Instant endDate;
 }

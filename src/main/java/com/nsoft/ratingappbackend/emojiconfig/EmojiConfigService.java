@@ -7,7 +7,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
- * Service method for EmojiConfig
+ * Service class for EmojiConfig.
+ *
+ * @see EmojiConfig
  */
 @Service
 @AllArgsConstructor
@@ -17,7 +19,7 @@ public class EmojiConfigService {
 	private final RatingSettingsRepository ratingSettingsRepository;
 
 	/**
-	 * Method returns List of EmojiConfigs filtered using numOfEmoticons
+	 * Method returns List of EmojiConfigs filtered using numOfEmoticons.
 	 *
 	 * @return List
 	 */

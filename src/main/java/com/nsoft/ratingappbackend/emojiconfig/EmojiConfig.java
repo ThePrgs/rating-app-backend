@@ -14,7 +14,14 @@ import lombok.Setter;
 
 
 /**
- * Entity for emoji configuration
+ * EmojiConfig class represents an entity. It is used to store all possible (numOfEmoticons∈[3,5])
+ * variations to present rating settings. It defines which emojis will be show with currently set
+ * RatingSettings´ numOfEmoticons.
+ * <p>
+ * Example: If numOfEmoticons is set to 3, we display Emojis with id 1, 3 and 5.
+ *
+ * @see Emoji
+ * @see com.nsoft.ratingappbackend.ratingsettings.RatingSettings
  */
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,20 +32,20 @@ import lombok.Setter;
 public class EmojiConfig {
 
 	/**
-	 * Column id is the primary key of the emoji config table
+	 * id is a sequence number.
 	 */
 	@Id
 	@Column(name = "id")
 	private Long id;
 
 	/**
-	 * Column numOfEmoticons is the number of emoticons set in the settings table
+	 * numOfEmoticons is a number of emojis that can possibly be shown.
 	 */
 	@Column(name = "num_of_emoticons")
 	private Integer numOfEmoticons;
 
 	/**
-	 * Column emoji_id is a foreign key to the table emoji
+	 * emojiId is used to set which emoji will be show with its corresponding numOfEmoticons.
 	 */
 	@ManyToOne
 	@JoinColumn(name = "emoji_id")

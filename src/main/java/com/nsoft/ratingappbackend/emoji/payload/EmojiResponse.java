@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Client receives payload with list of emojis that are currently in use
+ * Client receives payload with list of emojis that are currently in use.
  *
  * @see com.nsoft.ratingappbackend.emojiconfig.EmojiConfig
  */
@@ -16,6 +16,13 @@ import lombok.Setter;
 @NoArgsConstructor
 public class EmojiResponse {
 
+	/**
+	 * An informative message.
+	 */
 	private String message;
+
+	/**
+	 * A list of emojis.
+	 */
 	private List<Emoji> emojiList;
 }
