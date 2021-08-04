@@ -35,7 +35,7 @@ public class AuthController {
 	public ResponseEntity<RoleResponse> authenticate(@Valid @RequestBody TokenRequest request) {
 		RoleResponse response = new RoleResponse();
 		try {
-			response = appUserService.singIn(request);
+			response = appUserService.signIn(request);
 			if (response.getRole() != null) {
 				return new ResponseEntity<>(response, HttpStatus.OK);
 			} else {
@@ -50,6 +50,12 @@ public class AuthController {
 		}
 	}
 
+	/**
+	 * API endpoint - revokes Google access token.
+	 *
+	 * @param request request with Google access token.
+	 * @return ResponseEntity with message and HttpStatus code.
+	 */
 	@PostMapping("/revoke")
 	public ResponseEntity<String> revoke(@Valid @RequestBody TokenRequest request){
 		try {

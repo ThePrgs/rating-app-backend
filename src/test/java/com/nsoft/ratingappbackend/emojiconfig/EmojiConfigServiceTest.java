@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import com.nsoft.ratingappbackend.emoji.Emoji;
 import com.nsoft.ratingappbackend.ratingsettings.RatingSettings;
 import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsRepository;
-import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsResponse;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;

@@ -7,6 +7,7 @@ import com.nsoft.ratingappbackend.auth.payload.TokenRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Optional;
 import javax.net.ssl.HttpsURLConnection;
@@ -31,6 +32,8 @@ public class AppUserService implements UserDetailsService {
 
 
 	/**
+	 * Loads user using their email.
+	 *
 	 * @param email email to be checked against the database.
 	 * @return UserDetails of the user.
 	 * @throws UsernameNotFoundException if the email is not found.
@@ -47,6 +50,8 @@ public class AppUserService implements UserDetailsService {
 	}
 
 	/**
+	 * Validates Google access token.
+	 *
 	 * @param token Google access token to be verified.
 	 * @return JsonObject which contains user data if token's integrity is valid.
 	 * @throws IOException if the token is invalid.
@@ -65,12 +70,38 @@ public class AppUserService implements UserDetailsService {
 	}
 
 	/**
+	 * Method revokes Google access token.
+	 *
+	 * @param token Google access token to be revoked.
+	 * @return String.
+	 * @throws IOException in case of invalid access token.
+	 */
+	public String revokeAccessToken(TokenRequest token) throws IOException {
+		URL url = new URL("https://oauth2.googleapis.com/revoke?token=" + token.getAccessToken());
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setRequestMethod("POST");
+		con.setRequestProperty("Content-Length", "0");
+		con.setRequestProperty("Accept", "*/*");
+		con.setDoOutput(true);
+		con.connect();
+
+		con.getOutputStream().close();
+		BufferedReader in = new BufferedReader(
+			new InputStreamReader(con.getInputStream()));
+		in.close();
+
+		return "200 OK";
+	}
+
+	/**
+	 *
+	 *
 	 * @param request contains Google access token.
 	 * @return ´200 OK´ if the user is in the database, or ´401 UNAUTHORIZED´ if he is not.
 	 * @throws IOException if the token is invalid.
 	 */
 	@SneakyThrows
-	public RoleResponse singIn(TokenRequest request) throws IOException {
+	public RoleResponse signIn(TokenRequest request) throws IOException {
 		JsonObject json = validateAccessToken(request.getAccessToken());
 		String mail = json.get("email").getAsString();
 		Optional<AppUser> user = appUserRepository.findByEmail(mail);
