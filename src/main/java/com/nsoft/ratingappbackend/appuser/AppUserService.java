@@ -72,7 +72,7 @@ public class AppUserService implements UserDetailsService {
 	}
 
 	@SneakyThrows
-	public RoleResponse singIn(TokenRequest request) throws IOException {
+	public RoleResponse signIn(TokenRequest request) throws IOException {
 		JsonObject json = validateAccessToken(request.getAccessToken());
 		String mail = json.get("email").getAsString();
 		Optional<AppUser> user = appUserRepository.findByEmail(mail);
