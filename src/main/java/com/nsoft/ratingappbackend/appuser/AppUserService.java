@@ -7,6 +7,7 @@ import com.nsoft.ratingappbackend.auth.payload.TokenRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Optional;
 import javax.net.ssl.HttpsURLConnection;
@@ -35,6 +36,24 @@ public class AppUserService implements UserDetailsService {
 				() ->
 					new UsernameNotFoundException(
 						String.format(USER_NOT_FOUND_MSG, email)));
+
+	}
+
+	public String revokeAccessToken(TokenRequest token) throws IOException {
+		URL url = new URL("https://oauth2.googleapis.com/revoke?token=" + token.getAccessToken());
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setRequestMethod("POST");
+		con.setRequestProperty("Content-Length", "0");
+		con.setRequestProperty("Accept", "*/*");
+		con.setDoOutput(true);
+		con.connect();
+
+		con.getOutputStream().close();
+		BufferedReader in = new BufferedReader(
+			new InputStreamReader(con.getInputStream()));
+		in.close();
+
+		return "200 OK";
 
 	}
 
