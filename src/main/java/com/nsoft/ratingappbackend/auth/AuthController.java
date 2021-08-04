@@ -49,4 +49,14 @@ public class AuthController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
+
+	@PostMapping("/revoke")
+	public ResponseEntity<String> revoke(@Valid @RequestBody TokenRequest request){
+		try {
+			return new ResponseEntity<>(appUserService.revokeAccessToken(request), HttpStatus.OK);
+		}
+		catch (IOException e){
+			return new ResponseEntity<>("400 Bad Request", HttpStatus.BAD_REQUEST);
+		}
+	}
 }
