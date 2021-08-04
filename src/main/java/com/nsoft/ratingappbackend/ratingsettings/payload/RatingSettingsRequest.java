@@ -6,11 +6,13 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * A response containing numOfEmoticons, timeout and msg
  */
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class RatingSettingsRequest {
