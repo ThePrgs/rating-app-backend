@@ -28,6 +28,8 @@ import org.springframework.stereotype.Service;
 public class AppUserService implements UserDetailsService {
 
 	private static final String USER_NOT_FOUND_MSG = "User with that email not found";
+	private static final String OK = "200 OK";
+	private static final String UNAUTHORIZED = "401 UNAUTHORIZED";
 	private final AppUserRepository appUserRepository;
 
 
@@ -90,7 +92,7 @@ public class AppUserService implements UserDetailsService {
 			new InputStreamReader(con.getInputStream()));
 		in.close();
 
-		return "200 OK";
+		return OK;
 	}
 
 	/**
@@ -109,11 +111,11 @@ public class AppUserService implements UserDetailsService {
 		RoleResponse response = new RoleResponse();
 		if (user.isPresent()) {
 			AppUserRole userRole = user.get().getAppUserRole();
-			response.setStatus("200 OK");
+			response.setStatus(OK);
 			response.setRole(userRole);
 			return response;
 		} else {
-			response.setStatus("401 UNAUTHORIZED");
+			response.setStatus(UNAUTHORIZED);
 			return response;
 		}
 	}
