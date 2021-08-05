@@ -136,6 +136,8 @@ public class RatingService {
 					response.append(responseLine.trim());
 				}
 			}
+
+			con.disconnect();
 		}
 	}
 }

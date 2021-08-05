@@ -68,6 +68,7 @@ public class AppUserService implements UserDetailsService {
 			new InputStreamReader(con.getInputStream()));
 		JsonObject json = JsonParser.parseReader(in).getAsJsonObject();
 		in.close();
+		con.disconnect();
 		return json;
 	}
 
@@ -91,7 +92,7 @@ public class AppUserService implements UserDetailsService {
 		BufferedReader in = new BufferedReader(
 			new InputStreamReader(con.getInputStream()));
 		in.close();
-
+		con.disconnect();
 		return OK;
 	}
 
