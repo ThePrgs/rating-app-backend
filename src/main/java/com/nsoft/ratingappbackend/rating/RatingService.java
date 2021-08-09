@@ -2,6 +2,10 @@ package com.nsoft.ratingappbackend.rating;
 
 import com.nsoft.ratingappbackend.emoji.Emoji;
 import com.nsoft.ratingappbackend.emoji.EmojiRepository;
+import com.nsoft.ratingappbackend.rating.payload.RatingRequest;
+import com.nsoft.ratingappbackend.rating.payload.RatingResponse;
+import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesRequest;
+import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesResponse;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -14,17 +18,15 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
-import com.nsoft.ratingappbackend.rating.payload.RatingRequest;
-import com.nsoft.ratingappbackend.rating.payload.RatingResponse;
-import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesRequest;
-import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesResponse;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 /**
- * Service class for rating
+ * Service class for rating.
+ *
+ * @see Rating
  */
 @Service
 @AllArgsConstructor
@@ -34,10 +36,10 @@ public class RatingService {
 	private final EmojiRepository emojiRepository;
 
 	/**
-	 * Method takes request containing emojiId and creates a rating with that id
+	 * Method takes request containing emojiId and creates a rating with that id.
 	 *
-	 * @param request emojiID
-	 * @return boolean
+	 * @param request request with emoji id.
+	 * @return RatingResponse with a message and newly created rating.
 	 */
 	public RatingResponse createRating(RatingRequest request) {
 		RatingResponse response = new RatingResponse();
@@ -56,16 +58,25 @@ public class RatingService {
 		return response;
 	}
 
+	/**
+	 * Method finds all ratings between two dates.
+	 *
+	 * @param request request made to get all the ratings between two dates.
+	 * @return a list of ratings between two dates.
+	 */
 	public RatingsBetweenDatesResponse getRatingsBetweenDates(RatingsBetweenDatesRequest request) {
 		RatingsBetweenDatesResponse response = new RatingsBetweenDatesResponse();
 		try {
 
-			List<Rating> ratingsBetweenDates =  ratingRepository.findAllByDateBetween(request.getStartDate(), request.getEndDate());
-			if(!ratingsBetweenDates.isEmpty()) {
-				response.setMessage("All ratings between " + request.getStartDate() + " and " + request.getEndDate());
+			List<Rating> ratingsBetweenDates = ratingRepository.findAllByDateBetween(
+				request.getStartDate(), request.getEndDate());
+			if (!ratingsBetweenDates.isEmpty()) {
+				response.setMessage("All ratings between " + request.getStartDate() + " and "
+					+ request.getEndDate());
 				response.setRatings(ratingsBetweenDates);
 			} else {
-				response.setMessage("No ratings found between " + request.getStartDate() + " and " + request.getEndDate() + ".");
+				response.setMessage("No ratings found between " + request.getStartDate() + " and "
+					+ request.getEndDate() + ".");
 			}
 		} catch (IllegalArgumentException e) {
 			throw new IllegalArgumentException();
@@ -73,22 +84,35 @@ public class RatingService {
 		return response;
 	}
 
+	/**
+	 * Method checks if the dates are valid.
+	 *
+	 * @param firstDate first date of the request.
+	 * @param lastDate  last date of the request.
+	 * @return a boolean - true if the first date is before last and difference between is no more
+	 * than 31 days; false otherwise.
+	 */
 	public boolean areDatesValid(Instant firstDate, Instant lastDate) {
 
-		// is first date before the second, and is difference between dates <= than 30 days
-		return firstDate.isBefore(lastDate) && (firstDate.until(lastDate, ChronoUnit.DAYS) <= 30);
+		// is first date before the second, and is difference between dates <= than 31 days
+		return firstDate.isBefore(lastDate) && (firstDate.until(lastDate, ChronoUnit.DAYS) <= 31);
 	}
 
+	/**
+	 * Method sends daily rating reports to Slack if there was less than 10 ratings.
+	 */
 	@Scheduled(cron = "0 59 23 * * MON-SUN")
 	@SneakyThrows
-	public void sendSlackReport(){
+	public void sendSlackReport() {
 
 		LocalDateTime localDateTime = LocalDateTime.now();
 		LocalDateTime morningDateTime = LocalDateTime.now();
-		morningDateTime=morningDateTime.minusHours(localDateTime.getHour()).minusMinutes(localDateTime.getMinute()).minusSeconds(localDateTime.getSecond());
-		List<Rating> list= ratingRepository.findAllByDateBetween(morningDateTime.toInstant(ZoneOffset.UTC),localDateTime.toInstant(ZoneOffset.UTC));
+		morningDateTime = morningDateTime.minusHours(localDateTime.getHour())
+			.minusMinutes(localDateTime.getMinute()).minusSeconds(localDateTime.getSecond());
+		List<Rating> list = ratingRepository.findAllByDateBetween(
+			morningDateTime.toInstant(ZoneOffset.UTC), localDateTime.toInstant(ZoneOffset.UTC));
 
-		if((long) list.size() <10) {
+		if ((long) list.size() < 10) {
 			URL url = new URL(
 				"https://hooks.slack.com/services/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");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -112,6 +136,8 @@ public class RatingService {
 					response.append(responseLine.trim());
 				}
 			}
+
+			con.disconnect();
 		}
 	}
 }

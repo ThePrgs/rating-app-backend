@@ -3,7 +3,9 @@ package com.nsoft.ratingappbackend.ratingsettings;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Repository of the rating settings
+ * Repository for RatingSettings.
+ *
+ * @see RatingSettings
  */
 public interface RatingSettingsRepository extends JpaRepository<RatingSettings, Long> {
 

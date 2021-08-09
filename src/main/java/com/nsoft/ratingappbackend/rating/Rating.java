@@ -20,7 +20,11 @@ import lombok.Setter;
 
 
 /**
- * Entity for rating table
+ * Rating class represents an entity. Ratings are simple evaluations stored in database with an
+ * emoji (score) and datetime. It is an integral part of the application because we use if for
+ * further development of statistics.
+ *
+ * @see Emoji
  */
 @Entity
 @NoArgsConstructor
@@ -31,7 +35,7 @@ import lombok.Setter;
 public class Rating {
 
 	/**
-	 * Column id is the primary key of the ratings table
+	 * id is an identifier.
 	 */
 	@SequenceGenerator(
 		name = "rating_sequence",
@@ -44,14 +48,14 @@ public class Rating {
 	private Long id;
 
 	/**
-	 * Column emoji_id is a foreign key on the table emoji
+	 * emojiId is a foreign key that connects to Emoji table (many-to-one relationship).
 	 */
 	@ManyToOne
 	@JoinColumn(name = "emoji_id")
 	private Emoji emojiId;
 
 	/**
-	 * Column date is the date when the emoji was saved
+	 * date represents date and time when the emoji was stored.
 	 */
 	@Column(name = "date")
 	@NotNull

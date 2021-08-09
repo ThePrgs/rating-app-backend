@@ -11,6 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Security configuration of the application.
+ */
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
@@ -22,15 +25,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-				.cors()
+			.cors()
 			.and()
-				.csrf().disable()
-				.authorizeRequests().antMatchers("/api/rating/settings").hasRole("ADMIN")
-				.antMatchers("/api/rating/statistics").hasAnyRole("USER", "ADMIN")
-				.anyRequest()
-				.permitAll()
+			.csrf().disable()
+			.authorizeRequests().antMatchers("/api/rating/settings").hasRole("ADMIN")
+			.antMatchers("/api/rating/statistics").hasAnyRole("USER", "ADMIN")
+			.anyRequest()
+			.permitAll()
 			.and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(oAuthRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 

@@ -9,6 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
+/**
+ * Utility class used for token validity check.
+ */
 @Service
 @AllArgsConstructor
 public class JwtUtil {
@@ -17,6 +20,10 @@ public class JwtUtil {
 	private final AppUserService appUserService;
 
 
+	/**
+	 * @param token token to be validated
+	 * @return a boolean - true if the user is verified, false if not
+	 */
 	@SneakyThrows
 	public boolean validateToken(String token) {
 		try {
@@ -24,11 +31,7 @@ public class JwtUtil {
 			String mail = json.get("email").getAsString();
 			Optional<AppUser> user = appUserRepository.findByEmail(mail);
 
-			if (user.isPresent()) {
-				return true;
-			} else {
-				return false;
-			}
+			return user.isPresent();
 		} catch (Exception e) {
 			return false;
 		}

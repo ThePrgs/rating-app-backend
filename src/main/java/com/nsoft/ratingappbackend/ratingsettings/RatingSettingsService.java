@@ -1,39 +1,43 @@
 package com.nsoft.ratingappbackend.ratingsettings;
 
-import com.pusher.rest.Pusher;
-import java.util.Optional;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsRequest;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsResponse;
+import com.nsoft.ratingappbackend.security.config.AppProperties;
+import com.pusher.rest.Pusher;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
- * Service class for the settings table
+ * Service class for RatingSettings.
+ *
+ * @see RatingSettings
  */
 @Service
 @AllArgsConstructor
 public class RatingSettingsService {
 
 	private final RatingSettingsRepository ratingSettingsRepository;
+	private final AppProperties appProperties;
 
 	/**
-	 * Method gets the settings from the repository
+	 * Method gets the current rating settings.
 	 *
-	 * @return RatingSettingResponse
+	 * @return RatingSettingResponse with a message and current rating settings.
 	 */
 	public RatingSettingsResponse getRatingSettings() {
 
 		Optional<RatingSettings> ratingSettings = ratingSettingsRepository.findById(1L);
 		RatingSettingsResponse ratingSettingsResponse = new RatingSettingsResponse();
-		if(ratingSettings.isPresent()) {
+		if (ratingSettings.isPresent()) {
 
 			ratingSettingsResponse.setMessage("Rating settings found.");
 			ratingSettingsResponse.setRatingSettings(
 				new RatingSettings(
-				ratingSettings.get().getNumOfEmoticons(),
-				ratingSettings.get().getTimeout(),
-				ratingSettings.get().getMsg()
-			));
+					ratingSettings.get().getNumOfEmoticons(),
+					ratingSettings.get().getTimeout(),
+					ratingSettings.get().getMsg()
+				));
 			return ratingSettingsResponse;
 		} else {
 			ratingSettingsResponse.setMessage("No rating settings found.");
@@ -42,15 +46,16 @@ public class RatingSettingsService {
 	}
 
 	/**
-	 * Method updates settings set in the repository
+	 * Method updates rating settings.
 	 *
-	 * @param request request containing new settings
-	 * @return boolean
+	 * @param request request containing new settings.
+	 * @return a boolean value whether the settings were updated or not.
 	 */
 
 	public boolean updateRatingSettings(RatingSettingsRequest request) {
-		Pusher pusher = new Pusher("1233197", "f47f2ad6b875f07ee437", "f7193bdaff0fcff4990a");
-		pusher.setCluster("eu");
+		Pusher pusher = new Pusher(appProperties.getPusherAppId(), appProperties.getPusherKey(),
+			appProperties.getPusherSecret());
+		pusher.setCluster(appProperties.getPusherCluster());
 		pusher.setEncrypted(true);
 
 		Optional<RatingSettings> obj = ratingSettingsRepository.findById(1L);

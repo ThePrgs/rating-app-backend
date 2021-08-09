@@ -4,9 +4,9 @@ import com.nsoft.ratingappbackend.rating.payload.RatingRequest;
 import com.nsoft.ratingappbackend.rating.payload.RatingResponse;
 import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesRequest;
 import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesResponse;
+import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsService;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsRequest;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsResponse;
-import com.nsoft.ratingappbackend.ratingsettings.RatingSettingsService;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,8 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Rating Controller has the api endpoints for getting settings /api/rating/settings , updating
- * settings /api/rating/settings and adding a rating /api/rating
+ * RatingController - a rest controller for ratings. This controller contains API endpoints used for
+ * creating ratings, settings and more.
+ *
+ * @see Rating
+ * @see com.nsoft.ratingappbackend.ratingsettings.RatingSettings
  */
 @RestController
 @AllArgsConstructor
@@ -33,16 +36,16 @@ public class RatingController {
 	private final RatingSettingsService ratingSettingsService;
 
 	/**
-	 * Method returns settings
+	 * API endpoint - get current rating settings.
 	 *
-	 * @return ResponseEntity
+	 * @return ResponseEntity with a RatingSettingsResponse.
 	 */
 	@GetMapping("/current-settings")
 	public ResponseEntity<RatingSettingsResponse> getRatingSettings() {
 		RatingSettingsResponse response = new RatingSettingsResponse();
 		try {
 			response = ratingSettingsService.getRatingSettings();
-			if(response.getRatingSettings() != null) {
+			if (response.getRatingSettings() != null) {
 
 				return new ResponseEntity<>(response, HttpStatus.OK);
 			} else {
@@ -55,10 +58,10 @@ public class RatingController {
 	}
 
 	/**
-	 * Method takes request and changes settings using it
+	 * API endpoint - updates rating settings.
 	 *
-	 * @param request object containing new settings
-	 * @return ResponseEntity
+	 * @param request request containing new settings.
+	 * @return ResponseEntity with a HttpStatus code.
 	 */
 	@PutMapping("/settings")
 	public ResponseEntity<String> updateRatingSettings(
@@ -76,17 +79,17 @@ public class RatingController {
 	}
 
 	/**
-	 * Method takes request containing new rating and sends it to the service
+	 * API endpoint - creates new rating.
 	 *
-	 * @param request object of the rating
-	 * @return ResponseEntity
+	 * @param request object of the rating.
+	 * @return ResponseEntity with RatingResponse and a HttpStatus code.
 	 */
 	@PostMapping
 	public ResponseEntity<RatingResponse> createRating(@Valid @RequestBody RatingRequest request) {
-			RatingResponse response = new RatingResponse();
+		RatingResponse response = new RatingResponse();
 		try {
 			response = ratingService.createRating(request);
-			if(response.getRating() != null) {
+			if (response.getRating() != null) {
 				return new ResponseEntity<>(response, HttpStatus.CREATED);
 			} else {
 				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -97,17 +100,24 @@ public class RatingController {
 		}
 	}
 
+	/**
+	 * API endpoint - gets all ratings between two dates.
+	 *
+	 * @param request contains two dates.
+	 * @return a RatingBetweenDatesResponse with all the rating between two dates.
+	 */
 	@PostMapping("/statistics")
 	public ResponseEntity<RatingsBetweenDatesResponse> getRatingsBetweenDates(
 		@Valid @RequestBody RatingsBetweenDatesRequest request) {
 		RatingsBetweenDatesResponse response = new RatingsBetweenDatesResponse();
 		try {
 			if (ratingService.areDatesValid(request.getStartDate(), request.getEndDate())) {
-				// if difference between requested dates is 30 days
+				// if difference between requested dates is 31 days
 				response = ratingService.getRatingsBetweenDates(request);
 				return new ResponseEntity<>(response, HttpStatus.OK);
 			} else {
-				response.setMessage(HttpStatus.BAD_REQUEST + "! Difference between dates might be more than 30 days!");
+				response.setMessage(HttpStatus.BAD_REQUEST
+					+ "! Difference between dates must be <= 31 days and start date must be before end date!");
 				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 			}
 		} catch (IllegalArgumentException e) {

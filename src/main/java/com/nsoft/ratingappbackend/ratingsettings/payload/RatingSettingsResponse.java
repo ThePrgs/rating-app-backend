@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Response contains current rating settings
+ */
 @Getter
 @Setter
 @NoArgsConstructor

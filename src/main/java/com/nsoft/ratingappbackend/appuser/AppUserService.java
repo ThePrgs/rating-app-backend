@@ -19,15 +19,27 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- * Service class for AppUser
+ * A service class for AppUser.
+ *
+ * @see AppUser
  */
 @Service
 @AllArgsConstructor
 public class AppUserService implements UserDetailsService {
 
 	private static final String USER_NOT_FOUND_MSG = "User with that email not found";
+	private static final String OK = "200 OK";
+	private static final String UNAUTHORIZED = "401 UNAUTHORIZED";
 	private final AppUserRepository appUserRepository;
 
+
+	/**
+	 * Loads user using their email.
+	 *
+	 * @param email email to be checked against the database.
+	 * @return UserDetails of the user.
+	 * @throws UsernameNotFoundException if the email is not found.
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		return appUserRepository
@@ -39,6 +51,34 @@ public class AppUserService implements UserDetailsService {
 
 	}
 
+	/**
+	 * Validates Google access token.
+	 *
+	 * @param token Google access token to be verified.
+	 * @return JsonObject which contains user data if token's integrity is valid.
+	 * @throws IOException if the token is invalid.
+	 */
+	public JsonObject validateAccessToken(String token) throws IOException {
+		URL url = new URL(
+			"https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=" + token);
+		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+		con.setRequestMethod("GET");
+
+		BufferedReader in = new BufferedReader(
+			new InputStreamReader(con.getInputStream()));
+		JsonObject json = JsonParser.parseReader(in).getAsJsonObject();
+		in.close();
+		con.disconnect();
+		return json;
+	}
+
+	/**
+	 * Method revokes Google access token.
+	 *
+	 * @param token Google access token to be revoked.
+	 * @return String.
+	 * @throws IOException in case of invalid access token.
+	 */
 	public String revokeAccessToken(TokenRequest token) throws IOException {
 		URL url = new URL("https://oauth2.googleapis.com/revoke?token=" + token.getAccessToken());
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -52,25 +92,17 @@ public class AppUserService implements UserDetailsService {
 		BufferedReader in = new BufferedReader(
 			new InputStreamReader(con.getInputStream()));
 		in.close();
-
-		return "200 OK";
-
+		con.disconnect();
+		return OK;
 	}
 
-
-	public JsonObject validateAccessToken(String token) throws IOException {
-		URL url = new URL(
-			"https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + token);
-		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
-		con.setRequestMethod("GET");
-
-		BufferedReader in = new BufferedReader(
-			new InputStreamReader(con.getInputStream()));
-		JsonObject json = JsonParser.parseReader(in).getAsJsonObject();
-		in.close();
-		return json;
-	}
-
+	/**
+	 *
+	 *
+	 * @param request contains Google access token.
+	 * @return ´200 OK´ if the user is in the database, or ´401 UNAUTHORIZED´ if he is not.
+	 * @throws IOException if the token is invalid.
+	 */
 	@SneakyThrows
 	public RoleResponse signIn(TokenRequest request) throws IOException {
 		JsonObject json = validateAccessToken(request.getAccessToken());
@@ -80,17 +112,11 @@ public class AppUserService implements UserDetailsService {
 		RoleResponse response = new RoleResponse();
 		if (user.isPresent()) {
 			AppUserRole userRole = user.get().getAppUserRole();
-			response.setStatus("200 OK");
+			response.setStatus(OK);
 			response.setRole(userRole);
 			return response;
 		} else {
-			AppUser newUser = new AppUser(
-				mail,
-				AppUserRole.USER
-			);
-			appUserRepository.save(newUser);
-			response.setRole(AppUserRole.USER);
-			response.setStatus("200 OK");
+			response.setStatus(UNAUTHORIZED);
 			return response;
 		}
 	}

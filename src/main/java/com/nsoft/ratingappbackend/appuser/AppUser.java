@@ -23,7 +23,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 
 /**
- * Entity for the user of the application
+ * AppUser class represents an entity. It is used for storing the users of our application in the
+ * database. Every user contains a role that is added to Spring Security´s SimpleGrantedAuthority.
+ *
+ * @see AppUserRole
+ * @see SimpleGrantedAuthority
  */
 @Entity
 @Getter
@@ -33,6 +37,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "app_user")
 public class AppUser implements UserDetails {
 
+	/**
+	 * id is used as a sequence number.
+	 */
 	@SequenceGenerator(
 		name = "app_user_sequence",
 		sequenceName = "app_user_sequence",
@@ -42,11 +49,17 @@ public class AppUser implements UserDetails {
 	@Column(name = "id")
 	private Long id;
 
+	/**
+	 * email is used to identify a user. It is unique.
+	 */
 	@Email
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 
 
+	/**
+	 * appUserRole is an identifier od user authorities and permissions.
+	 */
 	@Column(name = "app_user_role")
 	@Enumerated(EnumType.STRING)
 	private AppUserRole appUserRole;
@@ -56,6 +69,11 @@ public class AppUser implements UserDetails {
 		this.appUserRole = appUserRole;
 	}
 
+	/**
+	 * Method gets all user authorities.
+	 *
+	 * @return SimpleGrantedAuthority.
+	 */
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 

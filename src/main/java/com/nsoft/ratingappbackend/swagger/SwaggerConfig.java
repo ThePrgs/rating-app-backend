@@ -9,10 +9,18 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+/**
+ * SwaggerConfig class is used for Swagger API setup.
+ */
 @Configuration
 public class SwaggerConfig {
 
 
+	/**
+	 * Method generates documentation with described RESTful APIs using Swagger IDL.
+	 *
+	 * @return Docket of type SWAGGER_2.
+	 */
 	@Bean
 	public Docket swaggerConfiguration() {
 		return new Docket(DocumentationType.SWAGGER_2)
@@ -23,6 +31,11 @@ public class SwaggerConfig {
 
 	}
 
+	/**
+	 * Method sets basic api details.
+	 *
+	 * @return ApiInfo.
+	 */
 	private ApiInfo apiDetails() {
 		return new ApiInfo(
 			"Rating app API",
