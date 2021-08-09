@@ -90,12 +90,12 @@ public class RatingService {
 	 * @param firstDate first date of the request.
 	 * @param lastDate  last date of the request.
 	 * @return a boolean - true if the first date is before last and difference between is no more
-	 * than 30 days; false otherwise.
+	 * than 31 days; false otherwise.
 	 */
 	public boolean areDatesValid(Instant firstDate, Instant lastDate) {
 
-		// is first date before the second, and is difference between dates <= than 30 days
-		return firstDate.isBefore(lastDate) && (firstDate.until(lastDate, ChronoUnit.DAYS) <= 30);
+		// is first date before the second, and is difference between dates <= than 31 days
+		return firstDate.isBefore(lastDate) && (firstDate.until(lastDate, ChronoUnit.DAYS) <= 31);
 	}
 
 	/**

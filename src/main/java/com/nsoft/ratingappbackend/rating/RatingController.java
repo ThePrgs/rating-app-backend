@@ -112,12 +112,12 @@ public class RatingController {
 		RatingsBetweenDatesResponse response = new RatingsBetweenDatesResponse();
 		try {
 			if (ratingService.areDatesValid(request.getStartDate(), request.getEndDate())) {
-				// if difference between requested dates is 30 days
+				// if difference between requested dates is 31 days
 				response = ratingService.getRatingsBetweenDates(request);
 				return new ResponseEntity<>(response, HttpStatus.OK);
 			} else {
 				response.setMessage(HttpStatus.BAD_REQUEST
-					+ "! Difference between dates might be more than 30 days!");
+					+ "! Difference between dates must be <= 31 days and start date must be before end date!");
 				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 			}
 		} catch (IllegalArgumentException e) {
