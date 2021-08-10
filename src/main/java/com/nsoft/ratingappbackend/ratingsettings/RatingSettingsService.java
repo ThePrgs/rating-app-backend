@@ -6,6 +6,7 @@ import com.nsoft.ratingappbackend.security.config.AppProperties;
 import com.pusher.rest.Pusher;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class RatingSettingsService {
 
 	private final RatingSettingsRepository ratingSettingsRepository;
@@ -65,6 +67,7 @@ public class RatingSettingsService {
 			obj.get().setMsg(request.getMsg());
 
 			ratingSettingsRepository.save(obj.get());
+			log.info("Sending update to pusher!");
 			pusher.trigger("settings", "settings-updated", obj);
 			return true;
 		} else {

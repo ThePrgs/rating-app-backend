@@ -46,14 +46,17 @@ public class RatingController {
 	public ResponseEntity<RatingSettingsResponse> getRatingSettings() {
 		RatingSettingsResponse response = new RatingSettingsResponse();
 		try {
+			log.info("Getting settings...");
 			response = ratingSettingsService.getRatingSettings();
 			if (response.getRatingSettings() != null) {
-				log.info("Uzimamo settingse");
+				log.info("Settings found");
 				return new ResponseEntity<>(response, HttpStatus.OK);
 			} else {
+				log.warn("Settings not found");
 				return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
+			log.error("An error has occurred!");
 			response.setMessage("An error has occurred!");
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
@@ -69,13 +72,17 @@ public class RatingController {
 	public ResponseEntity<String> updateRatingSettings(
 		@Valid @RequestBody RatingSettingsRequest request) {
 		try {
+			log.info("Updating settings...");
 			boolean isUpdated = ratingSettingsService.updateRatingSettings(request);
 			if (isUpdated) {
+				log.info("Settings successfully updated!");
 				return new ResponseEntity<>(HttpStatus.OK);
 			} else {
+				log.warn("Problem occurred while updating settings");
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
 		} catch (Exception e) {
+			log.error("An error has occurred!");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -90,13 +97,17 @@ public class RatingController {
 	public ResponseEntity<RatingResponse> createRating(@Valid @RequestBody RatingRequest request) {
 		RatingResponse response = new RatingResponse();
 		try {
+			log.info("Creating rating...");
 			response = ratingService.createRating(request);
 			if (response.getRating() != null) {
+				log.info("Rating created!");
 				return new ResponseEntity<>(response, HttpStatus.CREATED);
 			} else {
+				log.warn("Problem occurred while creating rating");
 				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 			}
 		} catch (Exception e) {
+			log.error("An error has occurred!");
 			response.setMessage(HttpStatus.BAD_REQUEST.toString());
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
@@ -115,14 +126,17 @@ public class RatingController {
 		try {
 			if (ratingService.areDatesValid(request.getStartDate(), request.getEndDate())) {
 				// if difference between requested dates is 31 days
+				log.info("Dates valid. Finding ratings...");
 				response = ratingService.getRatingsBetweenDates(request);
 				return new ResponseEntity<>(response, HttpStatus.OK);
 			} else {
+				log.warn("Dates not valid!");
 				response.setMessage(HttpStatus.BAD_REQUEST
 					+ "! Difference between dates must be <= 31 days and start date must be before end date!");
 				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 			}
 		} catch (IllegalArgumentException e) {
+			log.error("An error has occurred! Illegal Argument!");
 			response.setMessage(HttpStatus.BAD_REQUEST.toString());
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
