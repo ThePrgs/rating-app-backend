@@ -11,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Optional;
 import javax.net.ssl.HttpsURLConnection;
+import com.nsoft.ratingappbackend.security.config.AppProperties;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ public class AppUserService implements UserDetailsService {
 	private static final String OK = "200 OK";
 	private static final String UNAUTHORIZED = "401 UNAUTHORIZED";
 	private final AppUserRepository appUserRepository;
+	private final AppProperties appProperties;
 
 
 	/**
@@ -63,9 +65,9 @@ public class AppUserService implements UserDetailsService {
 	 */
 	public JsonObject validateAccessToken(String token) throws IOException {
 		URL url = new URL(
-			"https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=" + token);
+			appProperties.getGoogleValidateTokenLink() + token);
+		log.info("Opening connection to " + appProperties.getGoogleValidateTokenLink() + token + "...");
 		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
-		log.info("Opening connection to https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=" + token + "...");
 		con.setRequestMethod("GET");
 
 		BufferedReader in = new BufferedReader(
@@ -85,9 +87,9 @@ public class AppUserService implements UserDetailsService {
 	 * @throws IOException in case of invalid access token.
 	 */
 	public String revokeAccessToken(TokenRequest token) throws IOException {
-		URL url = new URL("https://oauth2.googleapis.com/revoke?token=" + token.getAccessToken());
+		URL url = new URL(appProperties.getGoogleRevokeTokenLink() + token.getAccessToken());
+		log.info("Opening connection to " + appProperties.getGoogleRevokeTokenLink() + token.getAccessToken() + "...");
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
-		log.info("Opening connection to https://oauth2.googleapis.com/revoke?token=" + token.getAccessToken() + "...");
 		con.setRequestMethod("POST");
 		con.setRequestProperty("Content-Length", "0");
 		con.setRequestProperty("Accept", "*/*");
@@ -117,7 +119,7 @@ public class AppUserService implements UserDetailsService {
 		Optional<AppUser> user = appUserRepository.findByEmail(mail);
 
 		RoleResponse response = new RoleResponse();
-		if (user.isPresent()) {
+		if(user.isPresent()) {
 			log.info(user.get().getEmail() + " is present. Setting up response...");
 			AppUserRole userRole = user.get().getAppUserRole();
 			response.setStatus(OK);

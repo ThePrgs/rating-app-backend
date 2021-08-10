@@ -18,6 +18,7 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import com.nsoft.ratingappbackend.security.config.AppProperties;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,7 @@ public class RatingService {
 
 	private final RatingRepository ratingRepository;
 	private final EmojiRepository emojiRepository;
+	private final AppProperties appProperties;
 
 	/**
 	 * Method takes request containing emojiId and creates a rating with that id.
@@ -118,8 +120,9 @@ public class RatingService {
 
 		if ((long) list.size() < 10) {
 			log.info("Sending scheduled slack report! Ratings lower then 10");
-			URL url = new URL(
-				"https://hooks.slack.com/services/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");
+			URL url = new URL(appProperties.getSlackReportLink());
+			log.info("Opening connection to " + appProperties.getSlackReportLink() + "...");
+
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Content-Type", "application/json; charset=utf-8");

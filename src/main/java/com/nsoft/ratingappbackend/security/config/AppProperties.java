@@ -34,4 +34,22 @@ public class AppProperties {
 	 */
 	@Value("${app.pusher.cluster}")
 	private String pusherCluster;
+
+	/**
+	 * Google token validation link
+	 */
+	@Value("${app.google.oauth.validate}")
+	private String googleValidateTokenLink;
+
+	/**
+	 * Google revoke token link
+	 */
+	@Value("${app.google.oauth.revoke}")
+	private String googleRevokeTokenLink;
+
+	/**
+	 * Slack report link
+	 */
+	@Value("${app.slack.report}")
+	private String slackReportLink;
 }
