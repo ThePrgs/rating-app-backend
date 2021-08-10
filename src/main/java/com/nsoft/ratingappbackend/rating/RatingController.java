@@ -9,6 +9,7 @@ import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsRequest;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsResponse;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @CrossOrigin
+@Slf4j
 @RequestMapping("/api/rating")
 public class RatingController {
 
@@ -46,7 +48,7 @@ public class RatingController {
 		try {
 			response = ratingSettingsService.getRatingSettings();
 			if (response.getRatingSettings() != null) {
-
+				log.info("Uzimamo settingse");
 				return new ResponseEntity<>(response, HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
