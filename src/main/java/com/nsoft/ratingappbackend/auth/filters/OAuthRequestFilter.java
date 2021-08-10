@@ -68,7 +68,7 @@ public class OAuthRequestFilter extends OncePerRequestFilter {
 			try {
 				UserDetails user = appUserService.loadUserByUsername(email);
 
-				if (jwtUtil.validateToken(token)) {
+				if (jwtUtil.validateToken(email)) {
 					var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 						user,
 						null,
