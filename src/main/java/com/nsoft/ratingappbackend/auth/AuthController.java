@@ -6,6 +6,7 @@ import com.nsoft.ratingappbackend.auth.payload.TokenRequest;
 import java.io.IOException;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @CrossOrigin
+@Slf4j
 @RequestMapping(path = "/api/auth")
 public class AuthController {
 
@@ -37,14 +39,18 @@ public class AuthController {
 		try {
 			response = appUserService.signIn(request);
 			if (response.getRole() != null) {
+				log.info("User successfully authenticated.");
 				return new ResponseEntity<>(response, HttpStatus.OK);
 			} else {
+				log.warn("User not found. Unauthorized!");
 				return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 			}
 		} catch (IOException e) {
+			log.error("Check for access token validity! It's either expired or invalid.");
 			response.setStatus("401 Unauthorized");
 			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 		} catch (Exception e) {
+			log.error("Something went wrong...");
 			response.setStatus("Something went wrong...");
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
@@ -59,9 +65,11 @@ public class AuthController {
 	@PostMapping("/revoke")
 	public ResponseEntity<String> revoke(@Valid @RequestBody TokenRequest request){
 		try {
+			log.info("Revoking access token...");
 			return new ResponseEntity<>(appUserService.revokeAccessToken(request), HttpStatus.OK);
 		}
 		catch (IOException e){
+			log.error("Could not revoke access token. Check for validity!");
 			return new ResponseEntity<>("400 Bad Request", HttpStatus.BAD_REQUEST);
 		}
 	}
