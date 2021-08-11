@@ -8,14 +8,15 @@ import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsResponse;
 import java.util.Arrays;
 import java.util.List;
 import com.nsoft.ratingappbackend.security.config.AppProperties;
+import com.nsoft.ratingappbackend.security.config.PusherConfig;
 import org.junit.jupiter.api.Test;
 
 class RatingSettingsServiceTest {
 
 	RatingSettingsRepository ratingSettingsRepository = mock(RatingSettingsRepository.class);
-	AppProperties appProperties = mock(AppProperties.class);
+	PusherConfig pusherConfig = mock(PusherConfig.class);
 
-	RatingSettingsService ratingSettingsService = new RatingSettingsService(ratingSettingsRepository, appProperties);
+	RatingSettingsService ratingSettingsService = new RatingSettingsService(ratingSettingsRepository, pusherConfig);
 
 	@Test
 	void getRatingSettings() {
