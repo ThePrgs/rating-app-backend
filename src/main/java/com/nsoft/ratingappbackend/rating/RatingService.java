@@ -18,8 +18,10 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import com.nsoft.ratingappbackend.security.config.AppProperties;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -30,10 +32,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class RatingService {
 
 	private final RatingRepository ratingRepository;
 	private final EmojiRepository emojiRepository;
+	private final AppProperties appProperties;
 
 	/**
 	 * Method takes request containing emojiId and creates a rating with that id.
@@ -71,10 +75,12 @@ public class RatingService {
 			List<Rating> ratingsBetweenDates = ratingRepository.findAllByDateBetween(
 				request.getStartDate(), request.getEndDate());
 			if (!ratingsBetweenDates.isEmpty()) {
+				log.info("Successfully found ratings between" + request.getStartDate() + " and " + request.getEndDate());
 				response.setMessage("All ratings between " + request.getStartDate() + " and "
 					+ request.getEndDate());
 				response.setRatings(ratingsBetweenDates);
 			} else {
+				log.info("No ratings found between" + request.getStartDate() + " and " + request.getEndDate());
 				response.setMessage("No ratings found between " + request.getStartDate() + " and "
 					+ request.getEndDate() + ".");
 			}
@@ -94,6 +100,7 @@ public class RatingService {
 	 */
 	public boolean areDatesValid(Instant firstDate, Instant lastDate) {
 
+		log.info("Validating dates!");
 		// is first date before the second, and is difference between dates <= than 31 days
 		return firstDate.isBefore(lastDate) && (firstDate.until(lastDate, ChronoUnit.DAYS) <= 31);
 	}
@@ -104,7 +111,6 @@ public class RatingService {
 	@Scheduled(cron = "0 59 23 * * MON-SUN")
 	@SneakyThrows
 	public void sendSlackReport() {
-
 		LocalDateTime localDateTime = LocalDateTime.now();
 		LocalDateTime morningDateTime = LocalDateTime.now();
 		morningDateTime = morningDateTime.minusHours(localDateTime.getHour())
@@ -113,8 +119,10 @@ public class RatingService {
 			morningDateTime.toInstant(ZoneOffset.UTC), localDateTime.toInstant(ZoneOffset.UTC));
 
 		if ((long) list.size() < 10) {
-			URL url = new URL(
-				"https://hooks.slack.com/services/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");
+			log.info("Sending scheduled slack report! Ratings lower then 10");
+			URL url = new URL(appProperties.getSlackReportLink());
+			log.info("Opening connection to " + appProperties.getSlackReportLink() + "...");
+
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Content-Type", "application/json; charset=utf-8");

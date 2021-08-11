@@ -3,9 +3,11 @@ package com.nsoft.ratingappbackend.ratingsettings;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsRequest;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsResponse;
 import com.nsoft.ratingappbackend.security.config.AppProperties;
+import com.nsoft.ratingappbackend.security.config.PusherConfig;
 import com.pusher.rest.Pusher;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,10 +17,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class RatingSettingsService {
 
 	private final RatingSettingsRepository ratingSettingsRepository;
-	private final AppProperties appProperties;
+	private final PusherConfig pusherConfig;
 
 	/**
 	 * Method gets the current rating settings.
@@ -53,10 +56,8 @@ public class RatingSettingsService {
 	 */
 
 	public boolean updateRatingSettings(RatingSettingsRequest request) {
-		Pusher pusher = new Pusher(appProperties.getPusherAppId(), appProperties.getPusherKey(),
-			appProperties.getPusherSecret());
-		pusher.setCluster(appProperties.getPusherCluster());
-		pusher.setEncrypted(true);
+
+		Pusher pusher = pusherConfig.getPusher();
 
 		Optional<RatingSettings> obj = ratingSettingsRepository.findById(1L);
 		if (obj.isPresent()) {
@@ -65,6 +66,7 @@ public class RatingSettingsService {
 			obj.get().setMsg(request.getMsg());
 
 			ratingSettingsRepository.save(obj.get());
+			log.info("Sending update to pusher!");
 			pusher.trigger("settings", "settings-updated", obj);
 			return true;
 		} else {

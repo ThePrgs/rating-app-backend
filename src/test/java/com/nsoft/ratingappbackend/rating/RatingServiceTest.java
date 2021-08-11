@@ -13,14 +13,16 @@ import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesResponse;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
+import com.nsoft.ratingappbackend.security.config.AppProperties;
 import org.junit.jupiter.api.Test;
 
 class RatingServiceTest {
 
 	EmojiRepository emojiRepository = mock(EmojiRepository.class);
 	RatingRepository ratingRepository = mock(RatingRepository.class);
+	AppProperties appProperties = mock(AppProperties.class);
 
-	RatingService ratingService = new RatingService(ratingRepository,emojiRepository);
+	RatingService ratingService = new RatingService(ratingRepository,emojiRepository, appProperties);
 
 	@Test
 	void areDatesValid() {
