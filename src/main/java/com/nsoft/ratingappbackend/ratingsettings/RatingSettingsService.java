@@ -2,8 +2,6 @@ package com.nsoft.ratingappbackend.ratingsettings;
 
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsRequest;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsResponse;
-import com.nsoft.ratingappbackend.security.config.AppProperties;
-import com.nsoft.ratingappbackend.security.config.PusherConfig;
 import com.pusher.rest.Pusher;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -21,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class RatingSettingsService {
 
 	private final RatingSettingsRepository ratingSettingsRepository;
-	private final PusherConfig pusherConfig;
+	private final Pusher pusher;
 
 	/**
 	 * Method gets the current rating settings.
@@ -56,8 +54,6 @@ public class RatingSettingsService {
 	 */
 
 	public boolean updateRatingSettings(RatingSettingsRequest request) {
-
-		Pusher pusher = pusherConfig.getPusher();
 
 		Optional<RatingSettings> obj = ratingSettingsRepository.findById(1L);
 		if (obj.isPresent()) {

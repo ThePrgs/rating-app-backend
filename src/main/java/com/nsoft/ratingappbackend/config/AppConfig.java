@@ -1,16 +1,17 @@
-package com.nsoft.ratingappbackend.security.config;
+package com.nsoft.ratingappbackend.config;
 
+import com.nsoft.ratingappbackend.security.config.AppProperties;
 import com.pusher.rest.Pusher;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Configuration for Pusher - a WebSockets solution.
+ * Configuration for the application.
  */
 @Configuration
 @AllArgsConstructor
-public class PusherConfig {
+public class AppConfig {
 
 	private final AppProperties appProperties;
 
