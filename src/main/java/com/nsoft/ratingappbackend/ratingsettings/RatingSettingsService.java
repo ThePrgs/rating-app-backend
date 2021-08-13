@@ -62,6 +62,9 @@ public class RatingSettingsService {
 			obj.get().setMsg(request.getMsg());
 
 			ratingSettingsRepository.save(obj.get());
+			if(obj.get().getMsg() == null){
+				obj.get().setMsg("");
+			}
 			log.info("Sending update to pusher!");
 			pusher.trigger("settings", "settings-updated", obj);
 			return true;
