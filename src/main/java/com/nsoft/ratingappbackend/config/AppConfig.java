@@ -2,6 +2,7 @@ package com.nsoft.ratingappbackend.config;
 
 import com.nsoft.ratingappbackend.security.config.AppProperties;
 import com.pusher.rest.Pusher;
+import com.slack.api.Slack;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,5 +28,11 @@ public class AppConfig {
 		pusher.setCluster(appProperties.getPusherCluster());
 		pusher.setEncrypted(true);
 		return pusher;
+	}
+
+
+	@Bean
+	public Slack getSlack(){
+		return Slack.getInstance();
 	}
 }

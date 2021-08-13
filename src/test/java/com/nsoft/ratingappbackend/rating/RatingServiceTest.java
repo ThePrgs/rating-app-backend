@@ -10,6 +10,7 @@ import com.nsoft.ratingappbackend.rating.payload.RatingRequest;
 import com.nsoft.ratingappbackend.rating.payload.RatingResponse;
 import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesRequest;
 import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesResponse;
+import com.slack.api.Slack;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
@@ -21,8 +22,8 @@ class RatingServiceTest {
 	EmojiRepository emojiRepository = mock(EmojiRepository.class);
 	RatingRepository ratingRepository = mock(RatingRepository.class);
 	AppProperties appProperties = mock(AppProperties.class);
-
-	RatingService ratingService = new RatingService(ratingRepository,emojiRepository, appProperties);
+	Slack slack =mock(Slack.class);
+	RatingService ratingService = new RatingService(ratingRepository,emojiRepository, appProperties, slack);
 
 	@Test
 	void areDatesValid() {

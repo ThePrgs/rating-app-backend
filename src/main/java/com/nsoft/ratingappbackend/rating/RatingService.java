@@ -6,12 +6,8 @@ import com.nsoft.ratingappbackend.rating.payload.RatingRequest;
 import com.nsoft.ratingappbackend.rating.payload.RatingResponse;
 import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesRequest;
 import com.nsoft.ratingappbackend.rating.payload.RatingsBetweenDatesResponse;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import com.slack.api.Slack;
+import com.slack.api.webhook.WebhookResponse;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -38,6 +34,8 @@ public class RatingService {
 	private final RatingRepository ratingRepository;
 	private final EmojiRepository emojiRepository;
 	private final AppProperties appProperties;
+	private final Slack slack;
+
 
 	/**
 	 * Method takes request containing emojiId and creates a rating with that id.
@@ -120,32 +118,11 @@ public class RatingService {
 
 		if ((long) list.size() < 10) {
 			log.info("Sending scheduled slack report! Ratings lower then 10");
-			URL url = new URL(appProperties.getSlackReportLink());
-			log.info("Opening connection to " + appProperties.getSlackReportLink() + "...");
+			String webhookUrl = appProperties.getSlackReportLink();
+			String payload = "{\"text\":\"There has been less than 10 ratings today!\"}";
+			WebhookResponse response = slack.send(webhookUrl,payload);
+			log.info(response.toString());
 
-			HttpURLConnection con = (HttpURLConnection) url.openConnection();
-			con.setRequestMethod("POST");
-			con.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-			con.setRequestProperty("Accept", "application/json");
-			con.setDoOutput(true);
-
-			String jsonInputString = "{\"text\": \"There was less then 10 rating today\"}";
-
-			try (OutputStream os = con.getOutputStream()) {
-				byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
-				os.write(input, 0, input.length);
-			}
-
-			try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
-				StringBuilder response = new StringBuilder();
-				String responseLine;
-				while ((responseLine = br.readLine()) != null) {
-					response.append(responseLine.trim());
-				}
-			}
-
-			con.disconnect();
 		}
 	}
 }
