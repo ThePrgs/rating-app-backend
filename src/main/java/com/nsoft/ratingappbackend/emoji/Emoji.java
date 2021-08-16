@@ -48,5 +48,4 @@ public class Emoji {
 	 */
 	@Column(name = "image")
 	private String image;
-
 }

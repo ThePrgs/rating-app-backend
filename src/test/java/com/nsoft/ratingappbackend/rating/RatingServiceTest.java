@@ -57,9 +57,9 @@ class RatingServiceTest {
 		request.setEmojiId(2L);
 
 		RatingResponse response = ratingService.createRating(request);
-		long responseEmojiId = response.getRating().getEmojiId().getId();
+		long responseEmojiId = response.getRating().getEmojiId();
 		long requestEmojiId = request.getEmojiId();
 
-		assertEquals(responseEmojiId,requestEmojiId);
+		assertEquals(responseEmojiId, requestEmojiId);
 	}
 }

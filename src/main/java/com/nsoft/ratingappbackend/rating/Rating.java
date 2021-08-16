@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,7 +29,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-@EqualsAndHashCode
 @Table(name = "rating")
 public class Rating {
 
@@ -65,5 +63,14 @@ public class Rating {
 
 		this.emojiId = emojiId;
 		this.date = date;
+	}
+
+	/**
+	 * Emoji getter.
+	 *
+	 * @return Id of an emoji instead of whole object.
+	 */
+	public Long getEmojiId() {
+		return emojiId.getId();
 	}
 }

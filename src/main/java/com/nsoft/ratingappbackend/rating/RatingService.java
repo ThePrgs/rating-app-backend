@@ -73,7 +73,7 @@ public class RatingService {
 			List<Rating> ratingsBetweenDates = ratingRepository.findAllByDateBetween(
 				request.getStartDate(), request.getEndDate());
 			if (!ratingsBetweenDates.isEmpty()) {
-				log.info("Successfully found ratings between" + request.getStartDate() + " and " + request.getEndDate());
+				log.info("Successfully found ratings between " + request.getStartDate() + " and " + request.getEndDate());
 				response.setMessage("All ratings between " + request.getStartDate() + " and "
 					+ request.getEndDate());
 				response.setRatings(ratingsBetweenDates);
@@ -122,7 +122,6 @@ public class RatingService {
 			String payload = "{\"text\":\"There has been less than 10 ratings today!\"}";
 			WebhookResponse response = slack.send(webhookUrl,payload);
 			log.info(response.toString());
-
 		}
 	}
 }
