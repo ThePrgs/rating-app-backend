@@ -30,7 +30,11 @@ public class AppConfig {
 		return pusher;
 	}
 
-
+	/**
+	 * Method returns an instance of Slack.
+	 *
+	 * @return Slack
+	 */
 	@Bean
 	public Slack getSlack(){
 		return Slack.getInstance();
