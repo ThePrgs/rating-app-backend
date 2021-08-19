@@ -1,5 +1,8 @@
 package com.nsoft.ratingappbackend.ratingsettings;
 
+import com.nsoft.ratingappbackend.emoji.EmojiService;
+import com.nsoft.ratingappbackend.emoji.payload.EmojiResponse;
+import com.nsoft.ratingappbackend.ratingsettings.payload.PusherResponse;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsRequest;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsResponse;
 import com.pusher.rest.Pusher;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service;
 public class RatingSettingsService {
 
 	private final RatingSettingsRepository ratingSettingsRepository;
+	private final EmojiService emojiService;
 	private final Pusher pusher;
 
 	/**
@@ -54,19 +58,23 @@ public class RatingSettingsService {
 	 */
 
 	public boolean updateRatingSettings(RatingSettingsRequest request) {
-
+		PusherResponse pusherResponse = new PusherResponse();
 		Optional<RatingSettings> obj = ratingSettingsRepository.findById(1L);
 		if (obj.isPresent()) {
 			obj.get().setNumOfEmoticons(request.getNumOfEmoticons());
 			obj.get().setTimeout(request.getTimeout());
 			obj.get().setMsg(request.getMsg());
-
+			EmojiResponse emojiResponse = emojiService.getEmojis();
 			ratingSettingsRepository.save(obj.get());
 			if(obj.get().getMsg() == null){
 				obj.get().setMsg("");
 			}
+
+			pusherResponse.setEmojiList(emojiResponse.getEmojiList());
+			pusherResponse.setRatingSettings(obj.get());
+
 			log.info("Sending update to pusher!");
-			pusher.trigger("settings", "settings-updated", obj);
+			pusher.trigger("settings", "settings-updated", pusherResponse);
 			return true;
 		} else {
 			return false;

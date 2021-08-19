@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.nsoft.ratingappbackend.emoji.EmojiService;
 import com.nsoft.ratingappbackend.ratingsettings.payload.RatingSettingsResponse;
 import java.util.Arrays;
 import java.util.List;
@@ -13,9 +14,10 @@ import org.junit.jupiter.api.Test;
 class RatingSettingsServiceTest {
 
 	RatingSettingsRepository ratingSettingsRepository = mock(RatingSettingsRepository.class);
+	EmojiService emojiService = mock(EmojiService.class);
 	Pusher pusher = mock(Pusher.class);
 
-	RatingSettingsService ratingSettingsService = new RatingSettingsService(ratingSettingsRepository, pusher);
+	RatingSettingsService ratingSettingsService = new RatingSettingsService(ratingSettingsRepository,emojiService ,pusher);
 
 	@Test
 	void getRatingSettings() {
