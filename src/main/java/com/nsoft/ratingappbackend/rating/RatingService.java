@@ -15,9 +15,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import com.nsoft.ratingappbackend.security.config.AppProperties;
+import java.util.concurrent.ThreadLocalRandom;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +39,27 @@ public class RatingService {
 	private final AppProperties appProperties;
 	private final Slack slack;
 
+
+
+
+	@EventListener(ApplicationReadyEvent.class)
+	public void fillUpDB() {
+		for(int i= 1; i<20000; i++) {
+			double randomDouble = ((Math.random() * (5 - 1)) + 1);
+			Long random = Math.round(randomDouble);
+			long endDate = Instant.now().getEpochSecond();
+			long startDate = 1625913220L;
+			long randomEpoch = ThreadLocalRandom
+				.current()
+				.nextLong(startDate, endDate);
+			Instant randomDate = Instant.ofEpochSecond(randomEpoch);
+			Optional<Emoji> emoji = emojiRepository.findById(random);
+			if(emoji.isPresent()) {
+				Rating rating = new Rating(emoji.get(), randomDate);
+				ratingRepository.save(rating);
+			}
+		}
+	}
 
 	/**
 	 * Method takes request containing emojiId and creates a rating with that id.
