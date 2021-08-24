@@ -2,24 +2,33 @@ version: "3.1"
 services:
   maria_db:
     image: mariadb:10.6
-    container_name: maria_db
+    container_name: maria_db_1
     restart: always
     ports:
       - "3306:3306"
     volumes:
-      - "./src/main/resources/init:/docker-entrypoint-initdb.d"
-      - "./src/main/resources/db/migration:/docker-entrypoint-migration.d"
+      - "./rating-app-backend/src/main/resources/init:/docker-entrypoint-initdb.d"
+      - "./rating-app-backend/src/main/resources/db/migration:/docker-entrypoint-migration.d"
     environment:
       MYSQL_ROOT_PASSWORD: password123
   api_service:
     build:
-      context: ./
+      context: ./rating-app-backend
       dockerfile: Dockerfile
     restart: always
     ports:
       - "8081:8081"
     depends_on:
       - maria_db
+  rating-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - api_service
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     container_name: pma
