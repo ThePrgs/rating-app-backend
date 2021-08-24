@@ -32,6 +32,11 @@ After everything has started you have your application running on http://localho
 * username: root
 * password: password123
 
+If you wish to clone other projects separately you can find them on following links:
+* [Rating app - dashboard](https://github.com/MonikaBrzica/rating-app)
+* [Rating app - public view](https://github.com/Andric34/rating-app-client)
+
+
 ### Emoji
 Emoji entity is defined as a rating category in itself. We use it for evaluation of our app through ratings. In our current setup, we store five different emojis (`VERY_HAPPY`, `HAPPY`, `MEH`, `SAD` and `VERY_SAD`). Besides that, Emoji also provide color and image values to our frontend.
 
