@@ -31,7 +31,7 @@ services:
       - api_service
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
-    container_name: pma
+    container_name: pma1
     ports:
       - "8000:80"
     environment:
