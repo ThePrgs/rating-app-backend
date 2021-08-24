@@ -21,11 +21,13 @@ We use the following technologies:
 ## Prerequisites and getting started
 In order to run the application you need to have Docker and docker-compose installed on your machine.
 
-When you have docker up and running you need to execute the following step on the command line:
+When you have docker up and running you need to navigate to the project folder that you cloned. Final step is to execute the following command that will run our bash script:
 
-* docker-compose up -d
+* `bash rating-app-backend.sh`
 
-After everything has started you have your application running on http://localhost:8081/ and phpMyAdmin on http://localhost:8000/. You can access the database 
+It will clone two other projects (Vue.js apps - our front side), as well as this one, and store it in /rating-application folder. To conclude, it will also run `docker-compose up -d` command. 
+
+After everything has started you have your application running on http://localhost:8080/, backend on http://localhost:8081/ and phpMyAdmin on http://localhost:8000/. You can access the database 
 "rating_app" with the following credentials:
 * username: root
 * password: password123
